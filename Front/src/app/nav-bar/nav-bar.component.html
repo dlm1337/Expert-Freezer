@@ -1,7 +1,7 @@
 <div class="container">
-  <mat-grid-list cols="6" rowHeight="100px">
+  <mat-grid-list cols="12" rowHeight="100px">
     <!-- Logo -->
-    <mat-grid-tile [colspan]="1" [rowspan]="1">
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
       <div class="logo">
         <img src="../../assets/images/file-sTSxsvvMrxkO0huhxU17e6wI.png" alt="Logo"
           style="width: 102px; border-radius: 5%; border: 2px solid rgb(93, 93, 192)" />
@@ -15,27 +15,33 @@
     </mat-grid-tile>
 
     <!-- Search bar -->
-    <mat-grid-tile [colspan]="1" [rowspan]="1">
-      <form class="example-form">
-        <mat-form-field class="example-full-width">
-          <mat-label>Favorite food</mat-label>
-          <input matInput placeholder="Ex. Pizza" value="Sushi">
-        </mat-form-field>
-      </form>
+    <mat-grid-tile [colspan]="4" [rowspan]="1">
+      <div class="search">
+        <form class="search-form">
+          <mat-form-field class="search-full-width">
+            <mat-label>Favorite food</mat-label>
+            <input matInput placeholder="Ex. Pizza" value="Sushi">
+          </mat-form-field>
+        </form>
+      </div>
     </mat-grid-tile>
 
     <!-- tabs -->
-    <mat-grid-tile [colspan]="2" [rowspan]="1">
-      <mat-tab-group class="mat-tab-group">
-        <mat-tab label="Feed"></mat-tab>
-        <mat-tab label="Saved"></mat-tab>
-        <mat-tab label="My Profile"></mat-tab>
-      </mat-tab-group>
+    <mat-grid-tile [colspan]="3" [rowspan]="1">
+      <div class="tabs">
+        <mat-tab-group class="mat-tab-group">
+          <mat-tab label="Feed"></mat-tab>
+          <mat-tab label="Saved"></mat-tab>
+          <mat-tab label="My Profile"></mat-tab>
+        </mat-tab-group>
+      </div>
     </mat-grid-tile>
 
     <!-- Logout button -->
-    <mat-grid-tile [colspan]="1" [rowspan]="1">
-      <button mat-button class="logout-button">Logout</button>
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
+      <div class="user-options">
+        <button mat-button class="logout-button">Logout</button>
+      </div>
     </mat-grid-tile>
   </mat-grid-list>
 
