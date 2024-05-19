@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { RestService } from '../services/rest.service';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { NameAndAddress } from '../types/nameAndAddress';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { ExampleDialogComponent } from '../dialog/example-dialog/example-dialog.component';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 import { FooterComponent } from '../footer/footer.component';
