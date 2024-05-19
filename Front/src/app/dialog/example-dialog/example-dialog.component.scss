@@ -1,0 +1,79 @@
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+
+  .example-form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+    height: fit-content;
+
+    .example-full-width {
+      display: flex;
+      flex-direction: column;
+      row-gap: 4px;
+      width: 100%;
+
+      input,
+      textarea {
+        width: 100%;
+      }
+    }
+
+    table {
+      border-collapse: collapse;
+      table-layout: fixed;
+      margin-top: 4px;
+      width: 100%;
+
+      td {
+        padding: 0 4px;
+        width: 33.33%;
+
+        .example-full-width {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 8px;
+
+  button {
+    margin-left: 4px;
+  }
+
+  .submit-btn {
+    background-color: #007bff;
+    color: #fff;
+
+    &:hover {
+      background-color: #0069d9;
+    }
+  }
+
+  .clear-btn {
+    background-color: #fff;
+    color: #007bff;
+
+    &:hover {
+      background-color: #f1f1f1;
+    }
+  }
+
+  .close-btn {
+    background-color: #fff;
+    color: #007bff;
+
+    &:hover {
+      background-color: #f1f1f1;
+    }
+  }
+
+}

@@ -1,0 +1,30 @@
+# Address Book Application
+
+## Setting up PostgreSQL Connection
+
+1. Open the `appsettings.json` file located in the `AddressBookWebAPI` directory.
+
+2. Add the PostgreSQL connection string to your Postres DB, as the first entry under the `"ConnectionStrings"` section. Example:
+
+   ```json
+   {
+    "ConnectionStrings": {
+    "WebApiDatabase": "Host=*; Database=*; Username=*; Password=*" 
+    },
+     // Other configurations...
+   } 
+
+# Running the Application
+
+## Frontend (Angular)
+
+3. Navigate to the `front` directory in terminal. run these commands to start Angular Live Development Server
+(`ng build`, `ng serve`). You can launch the application from provided link in terminal.
+
+## Backend (ASP.NET Core Web API)
+
+4. Navigate to the `AddressBookWebAPI` directory in second terminal.
+
+5. Run command in terminal using entity framework: `dotnet ef migrations add <MigrationName>`, `dotnet ef database update`.
+
+6. Run the following commands to build and run the ASP.NET Core Web API:(`dotnet build`, `dotnet run`)

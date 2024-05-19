@@ -1,0 +1,32 @@
+<div class="container">
+  <mat-grid-list cols="4" rowHeight="100px">
+    <mat-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows"
+      [style.background]="tile.color" [style.position]="tile.position" [style.z-index]="tile.zindex">
+      <!-- Render component if tile has a component defined -->
+      <ng-container *ngIf="tile.component">
+        <ng-container *ngComponentOutlet="tile.component"></ng-container>
+      </ng-container>
+      <!-- Otherwise, render tile text -->
+      <span *ngIf="!tile.component">{{ tile.text }}</span>
+    </mat-grid-tile>
+
+    <!-- <mat-grid-tile rowspan="3">
+      <div *ngIf="latestNameAndAddress" class="card">
+        <div class="card-header">
+          <h2>{{latestNameAndAddress.firstName}} {{latestNameAndAddress.lastName}}</h2>
+          <h4>{{latestNameAndAddress.company}}</h4>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li><strong>Address:</strong> {{latestNameAndAddress.address}}</li>
+            <li><strong>Address2:</strong> {{latestNameAndAddress.address2}}</li>
+            <li><strong>City:</strong> {{latestNameAndAddress.city}}</li>
+            <li><strong>State:</strong> {{latestNameAndAddress.state}}</li>
+            <li><strong>Postal Code:</strong> {{latestNameAndAddress.postalCode}}</li>
+          </ul>
+        </div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile rowspan="3">3</mat-grid-tile> -->
+  </mat-grid-list>
+</div>
