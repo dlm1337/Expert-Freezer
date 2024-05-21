@@ -17,6 +17,7 @@ export interface Tile {
   text: string;
   position?: string;
   zindex?: number;
+  boxShadow?: string;
 }
 
 @Component({
@@ -30,7 +31,10 @@ export class MainContentComponent {
   constructor(private matDialog: MatDialog, private restSvc: RestService) { }
   //mat-grid-list is populated from the data below. This is the main layout of the app.
   tiles: Tile[] = [
-    { component: NavBarComponent, text: 'One', cols: 4, rows: 1, color: 'lightblue', position: 'fixed', zindex: 1 },
+    {
+      component: NavBarComponent, text: 'One', cols: 4, rows: 1, color: 'lightblue', position: 'fixed',
+      zindex: 1000
+    },
     { component: SideBarComponent, text: 'Two', cols: 1, rows: 10, color: 'lightgreen', position: 'fixed' },
     { component: FeedComponent, text: 'Three', cols: 3, rows: 24, color: 'lightpink' },
     { component: FooterComponent, text: 'Four', cols: 4, rows: 2, color: '#DDBDF1' },

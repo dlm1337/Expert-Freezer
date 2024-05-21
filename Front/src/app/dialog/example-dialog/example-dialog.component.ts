@@ -10,7 +10,7 @@ import { RestService } from 'src/app/services/rest.service';
   templateUrl: './example-dialog.component.html',
   styleUrls: ['./example-dialog.component.scss'],
 })
-export class ExampleDialogComponent implements OnInit { 
+export class ExampleDialogComponent implements OnInit {
   public mainGroup: FormGroup;
   public nameAndAddress: NameAndAddress;
 
@@ -57,6 +57,7 @@ export class ExampleDialogComponent implements OnInit {
     this.mainGroup.reset();
     this.dialogRef.close();
   }
+
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }

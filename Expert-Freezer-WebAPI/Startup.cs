@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using AddressBookAPI.Data;
-using AddressBookAPI.Repo;
-using AddressBookAPI.Service;
+using ExpertFreezerAPI.Data;
+using ExpertFreezerAPI.Repo;
+using ExpertFreezerAPI.Service;
 
-namespace AddressBookAPI
+namespace ExpertFreezerAPI
 {
     public class Startup
     {
@@ -26,13 +26,13 @@ namespace AddressBookAPI
             services.AddSingleton(Configuration);
 
             // Add repositories
-            services.AddScoped<INameAndAddressRepository, NameAndAddressRepository>();
+            services.AddScoped<IExpertFreezerRepository, ExpertFreezerRepository>();
 
             // Add services
-            services.AddScoped<INameAndAddressService, NameAndAddressService>();
+            services.AddScoped<IExpertFreezerService, ExpertFreezerService>();
 
             // Add DbContext
-            services.AddDbContext<NameAndAddressContext>(options =>
+            services.AddDbContext<ExpertFreezerContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("WebApiDatabase")));
 
             // Add other services as needed

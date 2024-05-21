@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/AddressBookAPI/bin/Debug/net7.0/AddressBookAPI.dll",
+            "program": "${workspaceFolder}/ExpertFreezerAPI/bin/Debug/net7.0/ExpertFreezerAPI.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/AddressBookAPI",
+            "cwd": "${workspaceFolder}/ExpertFreezerAPI",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {

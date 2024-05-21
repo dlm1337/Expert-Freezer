@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using AddressBookAPI.Data;
+using ExpertFreezerAPI.Data;
 
 #nullable disable
 
-namespace AddressBookAPI.Migrations
+namespace ExpertFreezerAPI.Migrations
 {
-    [DbContext(typeof(NameAndAddressContext))]
+    [DbContext(typeof(ExpertFreezerContext))]
     [Migration("20230428234233_InitialCreate")]
     partial class InitialCreate
     {
@@ -25,7 +25,7 @@ namespace AddressBookAPI.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("AddressBookAPI.Models.NameAndAddress", b =>
+            modelBuilder.Entity("ExpertFreezerAPI.Models.ExpertFreezer", b =>
                 {
                     b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
@@ -65,7 +65,7 @@ namespace AddressBookAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NameAndAddresses");
+                    b.ToTable("expertFreezerProfiles");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace AddressBookAPI
+namespace ExpertFreezerAPI
 {
     public class Program
     {

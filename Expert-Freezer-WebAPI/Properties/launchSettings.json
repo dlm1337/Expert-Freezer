@@ -9,11 +9,11 @@
     }
   },
   "profiles": {
-    "AddressBookAPI": {
+    "ExpertFreezerAPI": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "launchUrl": "api/todoitems;api/NameAndAddress",
+      "launchUrl": "api/todoitems;api/ExpertFreezer",
       "applicationUrl": "https://localhost:7200;http://localhost:5042",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

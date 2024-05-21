@@ -1,6 +1,6 @@
-namespace AddressBookAPI.Models
+namespace ExpertFreezerAPI.Models
 {
-    public class NameAndAddress
+    public class ExpertFreezerProfileDTO
     {
         public long? Id { get; set; }
         public string? Company { get; set; }
@@ -12,6 +12,5 @@ namespace AddressBookAPI.Models
         public string? State { get; set; }
         public string? PostalCode { get; set; }
         public bool IsComplete { get; set; }
-        public string? Secret { get; set; }
     }
 }

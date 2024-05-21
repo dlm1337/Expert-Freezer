@@ -2,7 +2,7 @@
 
 ## Setting up PostgreSQL Connection
 
-1. Open the `appsettings.json` file located in the `AddressBookWebAPI` directory.
+1. Open the `appsettings.json` file located in the `ExpertFreezerWebAPI` directory.
 
 2. Add the PostgreSQL connection string to your Postres DB, as the first entry under the `"ConnectionStrings"` section. Example:
 
@@ -23,7 +23,7 @@
 
 ## Backend (ASP.NET Core Web API)
 
-4. Navigate to the `AddressBookWebAPI` directory in second terminal.
+4. Navigate to the `ExpertFreezerWebAPI` directory in second terminal.
 
 5. Run command in terminal using entity framework: `dotnet ef migrations add <MigrationName>`, `dotnet ef database update`.
 

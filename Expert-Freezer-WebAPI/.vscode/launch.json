@@ -6,7 +6,7 @@
         "type": "coreclr",
         "request": "launch",
         "preLaunchTask": "build",
-        "program": "${workspaceFolder}/bin/Debug/net6.0/AddressBookAPI.dll",
+        "program": "${workspaceFolder}/bin/Debug/net6.0/ExpertFreezerAPI.dll",
         "args": [],
         "cwd": "${workspaceFolder}",
         "stopAtEntry": false,
@@ -30,7 +30,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/bin/Debug/net6.0/AddressBookAPI.dll",
+            "program": "${workspaceFolder}/bin/Debug/net6.0/ExpertFreezerAPI.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,

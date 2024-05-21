@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace AddressBookAPI.Migrations
+namespace ExpertFreezerAPI.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -12,7 +12,7 @@ namespace AddressBookAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "NameAndAddresses",
+                name: "expertFreezerProfiles",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -30,7 +30,7 @@ namespace AddressBookAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NameAndAddresses", x => x.Id);
+                    table.PrimaryKey("PK_expertFreezerProfiles", x => x.Id);
                 });
         }
 
@@ -38,7 +38,7 @@ namespace AddressBookAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "NameAndAddresses");
+                name: "expertFreezerProfiles");
         }
     }
 }

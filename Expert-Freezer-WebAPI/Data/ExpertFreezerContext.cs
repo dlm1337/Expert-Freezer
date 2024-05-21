@@ -1,16 +1,16 @@
 using Microsoft.EntityFrameworkCore;
-using AddressBookAPI.Models;
+using ExpertFreezerAPI.Models;
 
-namespace AddressBookAPI.Data
+namespace ExpertFreezerAPI.Data
 {
-    public class NameAndAddressContext : DbContext
+    public class ExpertFreezerContext : DbContext
     {
         protected readonly IConfiguration Configuration;
-        public NameAndAddressContext(DbContextOptions<NameAndAddressContext> options, IConfiguration configuration)
+        public ExpertFreezerContext(DbContextOptions<ExpertFreezerContext> options, IConfiguration configuration)
             : base(options)
         {
             Configuration = configuration;
-            NameAndAddresses = Set<NameAndAddress>();
+            expertFreezerProfiles = Set<ExpertFreezerProfile>();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -18,6 +18,6 @@ namespace AddressBookAPI.Data
             options.UseNpgsql(Configuration.GetConnectionString("WebApiDatabase"));
         }
 
-        public DbSet<NameAndAddress> NameAndAddresses { get; set; }
+        public DbSet<ExpertFreezerProfile> expertFreezerProfiles { get; set; }
     }
 }
