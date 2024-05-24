@@ -51,11 +51,17 @@ export class RegisterUserDialogComponent implements OnInit {
 
       const filePromises: Promise<void>[] = [];
 
+      // Log form value for debugging
+      console.log('Form Value:', formValue);
+
       // Loop through form controls and append values to FormData
       Object.keys(formValue).forEach(key => {
+        console.log(`Key: ${key}, Value:`, formValue[key]); // Debugging
+
         if (key === 'profilePic') {
           const file: File = formValue[key];
           if (file && file instanceof File) {
+            console.log('At profile pic.');
             const filePromise = this.convertFileToBase64(file).then(base64String => {
               formData.append(key, base64String);
             });
@@ -64,6 +70,7 @@ export class RegisterUserDialogComponent implements OnInit {
         } else if (key === 'extraPics') {
           const files: FileList = formValue[key];
           if (files && files instanceof FileList) {
+            console.log('At extra pics.');
             const base64Promises = Array.from(files).map(file => {
               if (file instanceof File) {
                 return this.convertFileToBase64(file);
@@ -81,6 +88,8 @@ export class RegisterUserDialogComponent implements OnInit {
         }
       });
 
+      console.log('FormData:', formData);
+
       // Wait for all file conversion promises to resolve
       Promise.all(filePromises).then(() => {
         // Submit formData to the backend
@@ -97,6 +106,18 @@ export class RegisterUserDialogComponent implements OnInit {
       });
     }
   }
+
+  onFileChange(event: any, controlName: string): void {
+    const fileInput = event.target;
+    if (fileInput.files.length > 0) {
+      if (controlName === 'profilePic') {
+        this.form.patchValue({ profilePic: fileInput.files[0] });
+      } else if (controlName === 'extraPics') {
+        this.form.patchValue({ extraPics: fileInput.files });
+      }
+    }
+  }
+
   private convertFileToBase64(file: File): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
