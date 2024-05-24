@@ -5,7 +5,7 @@ using ExpertFreezerAPI.Service;
 
 namespace ExpertFreezerAPI.Controllers
 {
-    [Route("api/ExpertFreezer")]
+    [Route("api/ExpertFreezerProfile")]
     [ApiController]
     public class ExpertFreezerController : ControllerBase
     {
@@ -30,7 +30,7 @@ namespace ExpertFreezerAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ExpertFreezerProfileDTO>> CreateExpertFreezer(ExpertFreezerProfileDTO ExpertFreezerProfileDTO)
+        public async Task<ActionResult<ExpertFreezerProfileDTO>> CreateExpertFreezer([FromForm] ExpertFreezerProfileDTO ExpertFreezerProfileDTO)
         {
             var createdExpertFreezer = await _ExpertFreezerService.CreateExpertFreezer(ExpertFreezerProfileDTO);
 

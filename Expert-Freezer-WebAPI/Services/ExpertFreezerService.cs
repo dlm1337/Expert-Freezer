@@ -39,7 +39,7 @@ namespace ExpertFreezerAPI.Service
             }
         }
 
-        public async Task<ExpertFreezerProfileDTO> CreateExpertFreezer(ExpertFreezerProfileDTO ExpertFreezerProfileDTO)
+        public async Task<ExpertFreezerProfileDTO> CreateExpertFreezer(ExpertFreezerProfileDTO expertFreezerProfileDTO)
         {
             var lastId = await _repository.GetLastId();
             var nextId = lastId + 1;
@@ -47,15 +47,18 @@ namespace ExpertFreezerAPI.Service
             var expertFreezerProfile = new ExpertFreezerProfile
             {
                 Id = nextId,
-                IsComplete = ExpertFreezerProfileDTO.IsComplete,
-                Company = ExpertFreezerProfileDTO.Company,
-                FirstName = ExpertFreezerProfileDTO.FirstName,
-                LastName = ExpertFreezerProfileDTO.LastName,
-                Address = ExpertFreezerProfileDTO.Address,
-                Address2 = ExpertFreezerProfileDTO.Address2,
-                City = ExpertFreezerProfileDTO.City,
-                State = ExpertFreezerProfileDTO.State,
-                PostalCode = ExpertFreezerProfileDTO.PostalCode
+                IsComplete = expertFreezerProfileDTO.IsComplete,
+                CompanyName = expertFreezerProfileDTO.CompanyName,
+                UserName = expertFreezerProfileDTO.UserName,
+                Password = expertFreezerProfileDTO.Password,
+                ConfirmPassword = expertFreezerProfileDTO.ConfirmPassword,
+                CompanyDescription = expertFreezerProfileDTO.CompanyDescription,
+                Services = expertFreezerProfileDTO.Services,
+                Address = expertFreezerProfileDTO.Address,
+                Pricing = expertFreezerProfileDTO.Pricing,
+                ProfilePic = expertFreezerProfileDTO.ProfilePic,
+                ExtraPics = expertFreezerProfileDTO.ExtraPics,
+                ExtraPicsDesc = expertFreezerProfileDTO.ExtraPicsDesc
             };
 
             var createdExpertFreezer = await _repository.CreateExpertFreezer(expertFreezerProfile);
@@ -85,16 +88,19 @@ namespace ExpertFreezerAPI.Service
         private static ExpertFreezerProfileDTO ItemToDTO(ExpertFreezerProfile expertFreezerProfile) =>
            new ExpertFreezerProfileDTO
            {
-               IsComplete = expertFreezerProfile.IsComplete,
                Id = expertFreezerProfile.Id,
-               Company = expertFreezerProfile.Company,
-               FirstName = expertFreezerProfile.FirstName,
-               LastName = expertFreezerProfile.LastName,
+               IsComplete = expertFreezerProfile.IsComplete,
+               CompanyName = expertFreezerProfile.CompanyName,
+               UserName = expertFreezerProfile.UserName,
+               Password = expertFreezerProfile.Password,
+               ConfirmPassword = expertFreezerProfile.ConfirmPassword,
+               CompanyDescription = expertFreezerProfile.CompanyDescription,
+               Services = expertFreezerProfile.Services,
                Address = expertFreezerProfile.Address,
-               Address2 = expertFreezerProfile.Address2,
-               City = expertFreezerProfile.City,
-               State = expertFreezerProfile.State,
-               PostalCode = expertFreezerProfile.PostalCode
+               Pricing = expertFreezerProfile.Pricing,
+               ProfilePic = expertFreezerProfile.ProfilePic,
+               ExtraPics = expertFreezerProfile.ExtraPics,
+               ExtraPicsDesc = expertFreezerProfile.ExtraPicsDesc
            };
     }
 }

@@ -1,7 +1,7 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon'; 
+import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -16,7 +16,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ConfigService } from './services/config.service';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ExampleDialogComponent } from './dialog/example-dialog/example-dialog.component';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
@@ -36,7 +35,6 @@ import { MatTabsModule } from '@angular/material/tabs';
     NavBarComponent,
     FooterComponent,
     MainContentComponent,
-    ExampleDialogComponent,
     LoginComponent,
     LogoutComponent,
     RegisterUserComponent,
