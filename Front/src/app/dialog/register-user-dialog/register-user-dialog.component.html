@@ -25,12 +25,12 @@
 
         <div class="example-full-width">
             <label for="profilePic">Profile Picture</label>
-            <input type="file" id="profilePic" formControlName="profilePic" (change)="onFileChange($event, 'profilePic')">
+            <input type="file" id="profilePic" (change)="onFileChange($event, 'profilePic')" />
         </div>
 
         <div class="example-full-width">
             <label for="extraPics">Extra Pictures (Optional)</label>
-            <input type="file" id="extraPics" formControlName="extraPics" (change)="onFileChange($event, 'extraPics')" multiple>
+            <input type="file" id="extraPics" (change)="onFileChange($event, 'extraPics')" multiple />
         </div>
 
         <mat-form-field class="example-full-width" appearance="outline">

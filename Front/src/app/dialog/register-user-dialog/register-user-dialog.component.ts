@@ -18,30 +18,48 @@ import { passwordMatchValidator } from 'src/app/validators/password-validator';
   styleUrl: './register-user-dialog.component.scss'
 })
 
-export class RegisterUserDialogComponent implements OnInit {
+export class RegisterUserDialogComponent {
   form: FormGroup;
+  profilePic: File | null = null;
+  extraPics: File[] = [];
 
-  constructor(public dialogRef: MatDialogRef<RegisterUserDialogComponent>, private fb: FormBuilder,
-    public cdr: ChangeDetectorRef, public restSvc: RestService) { }
-
-
-  ngOnInit(): void {
-    this.form = this.fb.group({
+  constructor(private formBuilder: FormBuilder, private restSvc: RestService,
+    private dialogRef: MatDialogRef<RegisterUserDialogComponent>) {
+    this.form = this.formBuilder.group({
       userName: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
       companyName: [''],
       profilePic: [null],
       extraPics: [null],
-      extraPicsDesc: this.fb.array([]),
-      companyDescription: [''],
-      services: [''],
+      extraPicsDesc: [''],
+      companyDescription: ['', Validators.required],
+      services: ['', Validators.required],
       address: [''],
-      pricing: ['']
+      pricing: ['', Validators.required]
+    }, {
+      validators: passwordMatchValidator // Attach the custom validator function here
+    });
+  }
+
+  onFileChange(event: any, controlName: string): void {
+    const fileInput = event.target;
+    if (fileInput.files.length > 0) {
+      if (controlName === 'profilePic') {
+        this.profilePic = fileInput.files[0];
+      } else if (controlName === 'extraPics') {
+        this.extraPics = Array.from(fileInput.files);
+      }
     }
-      , {
-        validators: passwordMatchValidator // Attach the custom validator function here
-      });
+  }
+
+  convertFileToBase64(file: File): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+      reader.readAsDataURL(file);
+    });
   }
 
   submitForm(): void {
@@ -51,44 +69,27 @@ export class RegisterUserDialogComponent implements OnInit {
 
       const filePromises: Promise<void>[] = [];
 
-      // Log form value for debugging
-      console.log('Form Value:', formValue);
-
-      // Loop through form controls and append values to FormData
       Object.keys(formValue).forEach(key => {
-        console.log(`Key: ${key}, Value:`, formValue[key]); // Debugging
-
-        if (key === 'profilePic') {
-          const file: File = formValue[key];
-          if (file && file instanceof File) {
-            console.log('At profile pic.');
-            const filePromise = this.convertFileToBase64(file).then(base64String => {
-              formData.append(key, base64String);
-            });
-            filePromises.push(filePromise);
-          }
-        } else if (key === 'extraPics') {
-          const files: FileList = formValue[key];
-          if (files && files instanceof FileList) {
-            console.log('At extra pics.');
-            const base64Promises = Array.from(files).map(file => {
-              if (file instanceof File) {
-                return this.convertFileToBase64(file);
-              }
-              return Promise.resolve(''); // Handle the case where it's not a File
-            });
-            const filesPromise = Promise.all(base64Promises).then(base64Strings => {
-              base64Strings.forEach(base64String => formData.append(key, base64String));
-            });
-            filePromises.push(filesPromise);
-          }
+        if (key === 'profilePic' && this.profilePic) {
+          console.log('At profile pic.');
+          const filePromise = this.convertFileToBase64(this.profilePic).then(base64String => {
+            formData.append(key, base64String);
+          });
+          filePromises.push(filePromise);
+        } else if (key === 'extraPics' && this.extraPics.length > 0) {
+          console.log('At extra pics.');
+          const base64Promises = this.extraPics.map(file => this.convertFileToBase64(file));
+          const filesPromise = Promise.all(base64Promises).then(base64Strings => {
+            base64Strings.forEach(base64String => formData.append(key, base64String));
+          });
+          filePromises.push(filesPromise);
         } else {
           const controlValue = formValue[key];
           formData.append(key, controlValue);
         }
       });
 
-      console.log('FormData:', formData);
+      console.log(formData);
 
       // Wait for all file conversion promises to resolve
       Promise.all(filePromises).then(() => {
@@ -107,28 +108,8 @@ export class RegisterUserDialogComponent implements OnInit {
     }
   }
 
-  onFileChange(event: any, controlName: string): void {
-    const fileInput = event.target;
-    if (fileInput.files.length > 0) {
-      if (controlName === 'profilePic') {
-        this.form.patchValue({ profilePic: fileInput.files[0] });
-      } else if (controlName === 'extraPics') {
-        this.form.patchValue({ extraPics: fileInput.files });
-      }
-    }
-  }
-
-  private convertFileToBase64(file: File): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = error => reject(error);
-      reader.readAsDataURL(file);
-    });
-  }
 
   close(): void {
     this.dialogRef.close();
   }
-
 }
