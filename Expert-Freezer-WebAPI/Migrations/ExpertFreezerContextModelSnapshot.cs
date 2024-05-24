@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using ExpertFreezerAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -13,11 +12,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExpertFreezerWebAPI.Migrations
 {
     [DbContext(typeof(ExpertFreezerContext))]
-    [Migration("20240524034709_expertfreezerprofiles")]
-    partial class expertfreezerprofiles
+    partial class ExpertFreezerContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
