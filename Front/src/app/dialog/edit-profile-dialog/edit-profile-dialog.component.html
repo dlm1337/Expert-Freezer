@@ -1,0 +1,51 @@
+<h2 class="title">This is a Dialog title</h2>
+
+<mat-dialog-content class="content">
+    <form [formGroup]="form">
+        <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Company Name (Optional)</mat-label>
+            <input matInput formControlName="companyName">
+        </mat-form-field>
+
+        <div class="example-full-width">
+            <label for="profilePic">Profile Picture</label>
+            <input type="file" id="profilePic" (change)="onFileChange($event, 'profilePic')" />
+        </div>
+
+        <div class="example-full-width">
+            <label for="extraPics">Extra Pictures (Optional)</label>
+            <input type="file" id="extraPics" (change)="onFileChange($event, 'extraPics')" multiple />
+        </div>
+
+        <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Photo Description (Optional)</mat-label>
+            <textarea matInput formControlName="extraPicsDesc"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Company Description</mat-label>
+            <textarea matInput formControlName="companyDescription"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Services</mat-label>
+            <textarea matInput formControlName="services"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Address (Optional)</mat-label>
+            <textarea matInput formControlName="address"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Pricing</mat-label>
+            <input matInput formControlName="pricing">
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="actions">
+    <button class="submit-btn mat-raised-button" (click)="submitForm()">Submit</button>
+    <button class="clear-btn mat-raised-button" (click)="form.reset()">Clear</button>
+    <button class="close-btn mat-raised-button" (click)="close()">Close</button>
+</mat-dialog-actions>

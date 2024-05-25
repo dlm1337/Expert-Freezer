@@ -4,7 +4,7 @@
     <form [formGroup]="form">
         <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Username</mat-label>
-            <input matInput formControlName="username">
+            <input matInput formControlName="userName">
         </mat-form-field>
 
         <mat-form-field class="example-full-width" appearance="outline">
@@ -12,11 +12,6 @@
             <input type="password" matInput formControlName="password">
         </mat-form-field>
 
-        <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Confirm Password</mat-label>
-            <input type="password" matInput formControlName="confirmPassword">
-            <mat-error *ngIf="form.hasError('passwordMismatch')">Passwords do not match</mat-error>
-        </mat-form-field>
     </form>
 </mat-dialog-content>
 

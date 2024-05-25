@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { throwError } from 'rxjs';
 import { RestService } from 'src/app/services/rest.service';
@@ -10,23 +10,22 @@ import { MatInputModule } from '@angular/material/input';
 import { passwordMatchValidator } from 'src/app/validators/password-validator';
 
 @Component({
-  selector: 'app-register-user-dialog',
+  selector: 'app-edit-password-dialog',
   standalone: true,
   imports: [MatDialogContent, MatDialogActions, CommonModule, ReactiveFormsModule, FormsModule,
     MatFormFieldModule, MatInputModule],
-  templateUrl: './register-user-dialog.component.html',
-  styleUrl: './register-user-dialog.component.scss'
+  templateUrl: './edit-password-dialog.component.html',
+  styleUrl: './edit-password-dialog.component.scss'
 })
 
-export class RegisterUserDialogComponent {
+export class EditPasswordDialogComponent {
   form: FormGroup;
   profilePic: File | null = null;
   extraPics: File[] = [];
 
   constructor(private formBuilder: FormBuilder, private restSvc: RestService,
-    private dialogRef: MatDialogRef<RegisterUserDialogComponent>) {
+    private dialogRef: MatDialogRef<EditPasswordDialogComponent>) {
     this.form = this.formBuilder.group({
-      username: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
     }, {

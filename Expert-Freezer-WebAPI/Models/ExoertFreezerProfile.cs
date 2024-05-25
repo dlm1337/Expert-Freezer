@@ -8,7 +8,6 @@ namespace ExpertFreezerAPI.Models
         public long? Id { get; set; }
         public required string UserName { get; set; }
         public required string Password { get; set; }
-        public required string ConfirmPassword { get; set; }
         public string? CompanyName { get; set; }
         public string? ProfilePic { get; set; } // Base64 since it is just a sample app will be ok. I dont have any money for s3 bucket!
         public List<string>? ExtraPics { get; set; } // Base64 since it is just a sample app will be ok. I dont have any money for s3 bucket!

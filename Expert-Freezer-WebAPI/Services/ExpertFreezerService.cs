@@ -92,8 +92,6 @@ namespace ExpertFreezerAPI.Service
                IsComplete = expertFreezerProfile.IsComplete,
                CompanyName = expertFreezerProfile.CompanyName,
                UserName = expertFreezerProfile.UserName,
-               Password = expertFreezerProfile.Password,
-               ConfirmPassword = expertFreezerProfile.ConfirmPassword,
                CompanyDescription = expertFreezerProfile.CompanyDescription,
                Services = expertFreezerProfile.Services,
                Address = expertFreezerProfile.Address,
