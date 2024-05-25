@@ -10,13 +10,14 @@ namespace ExpertFreezerAPI.Data
             : base(options)
         {
             Configuration = configuration;
-            expertFreezerProfiles = Set<ExpertFreezerProfile>();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             // connect to postgres with connection string from app settings
             options.UseNpgsql(Configuration.GetConnectionString("WebApiDatabase"));
         }
+
+        public DbSet<User> Users { get; set; }
 
         public DbSet<ExpertFreezerProfile> expertFreezerProfiles { get; set; }
     }

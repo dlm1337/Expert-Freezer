@@ -27,23 +27,7 @@
 
 This may help if you need to make the table manually for your DB:
 
-5.       CREATE TABLE "expertFreezerProfiles" (
-            "Id" BIGINT PRIMARY KEY,
-            "UserName" TEXT NOT NULL,
-            "Password" TEXT NOT NULL,
-            "ConfirmPassword" TEXT NOT NULL,
-            "CompanyName" TEXT,
-            "ProfilePic" TEXT,
-            "ExtraPics" TEXT[],
-            "ExtraPicsDesc" TEXT[],
-            "CompanyDescription" TEXT,
-            "Services" TEXT,
-            "Address" TEXT,
-            "Pricing" TEXT,
-            "IsComplete" BOOLEAN NOT NULL,
-            "Secret" TEXT
-         );
+ 
+5. Run command in terminal using entity framework: `dotnet ef migrations add <MigrationName>`, `dotnet ef database update`.
 
-6. Run command in terminal using entity framework: `dotnet ef migrations add <MigrationName>`, `dotnet ef database update`.
-
-7. Run the following commands to build and run the ASP.NET Core Web API:(`dotnet build`, `dotnet run`)
+6. Run the following commands to build and run the ASP.NET Core Web API:(`dotnet build`, `dotnet run`)

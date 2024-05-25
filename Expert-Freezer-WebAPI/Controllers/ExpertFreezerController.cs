@@ -16,6 +16,33 @@ namespace ExpertFreezerAPI.Controllers
             _ExpertFreezerService = ExpertFreezerService;
         }
 
+        [HttpPost("register")]
+        public async Task<ActionResult<UserDTO>> Register(RegistrationDTO registrationDTO)
+        {
+            try
+            {
+                var userDTO = await _ExpertFreezerService.Register(registrationDTO);
+                return CreatedAtAction(nameof(GetUser), new { id = userDTO.Id }, userDTO);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserDTO>> GetUser(long id)
+        {
+            var userDTO = await _ExpertFreezerService.GetUser(id);
+
+            if (userDTO == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(userDTO);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ExpertFreezerProfileDTO>> GetExpertFreezer(long id)
         {

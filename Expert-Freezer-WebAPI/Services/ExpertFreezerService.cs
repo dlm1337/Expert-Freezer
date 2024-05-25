@@ -1,5 +1,6 @@
 using ExpertFreezerAPI.Models;
 using ExpertFreezerAPI.Repo;
+using Microsoft.AspNetCore.Identity;
 
 namespace ExpertFreezerAPI.Service
 {
@@ -8,15 +9,68 @@ namespace ExpertFreezerAPI.Service
         Task<ExpertFreezerProfileDTO> GetExpertFreezer(long id);
         Task<ExpertFreezerProfileDTO> CreateExpertFreezer(ExpertFreezerProfileDTO ExpertFreezerProfileDTO);
         Task<ExpertFreezerProfileDTO> GetLatestExpertFreezer();
+        Task<UserDTO> Register(RegistrationDTO registrationDTO);
+        Task<UserDTO> GetUser(long id);
     }
 
     public class ExpertFreezerService : IExpertFreezerService
     {
         private readonly IExpertFreezerRepository _repository;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
-        public ExpertFreezerService(IExpertFreezerRepository repository)
+        public ExpertFreezerService(IExpertFreezerRepository repository, IPasswordHasher<User> passwordHasher)
         {
             _repository = repository;
+            _passwordHasher = passwordHasher;
+        }
+
+        public async Task<UserDTO> Register(RegistrationDTO registrationDTO)
+        {
+            if (await _repository.UserExists(registrationDTO.Username))
+            {
+                throw new Exception("Username is already taken");
+            }
+
+            var user = new User
+            {
+                Username = registrationDTO.Username,
+                Email = registrationDTO.Email,
+                Password = registrationDTO.Password
+            };
+
+            // Hash the password before saving
+            user.Password = _passwordHasher.HashPassword(user, registrationDTO.Password);
+
+            await _repository.AddUser(user);
+            await _repository.SaveChangesAsync();
+
+            var userDTO = new UserDTO
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email
+            };
+
+            return userDTO;
+        }
+
+        public async Task<UserDTO> GetUser(long id)
+        {
+            var user = await _repository.FindUserById(id);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var userDTO = new UserDTO
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email
+            };
+
+            return userDTO;
         }
 
         public async Task<ExpertFreezerProfileDTO> GetExpertFreezer(long id)
@@ -47,14 +101,11 @@ namespace ExpertFreezerAPI.Service
             var expertFreezerProfile = new ExpertFreezerProfile
             {
                 Id = nextId,
-                IsComplete = expertFreezerProfileDTO.IsComplete,
                 CompanyName = expertFreezerProfileDTO.CompanyName,
-                UserName = expertFreezerProfileDTO.UserName,
-                Password = expertFreezerProfileDTO.Password,
-                ConfirmPassword = expertFreezerProfileDTO.ConfirmPassword,
                 CompanyDescription = expertFreezerProfileDTO.CompanyDescription,
                 Services = expertFreezerProfileDTO.Services,
                 Address = expertFreezerProfileDTO.Address,
+                Email = expertFreezerProfileDTO.Email,
                 Pricing = expertFreezerProfileDTO.Pricing,
                 ProfilePic = expertFreezerProfileDTO.ProfilePic,
                 ExtraPics = expertFreezerProfileDTO.ExtraPics,
@@ -89,12 +140,11 @@ namespace ExpertFreezerAPI.Service
            new ExpertFreezerProfileDTO
            {
                Id = expertFreezerProfile.Id,
-               IsComplete = expertFreezerProfile.IsComplete,
                CompanyName = expertFreezerProfile.CompanyName,
-               UserName = expertFreezerProfile.UserName,
                CompanyDescription = expertFreezerProfile.CompanyDescription,
                Services = expertFreezerProfile.Services,
                Address = expertFreezerProfile.Address,
+               Email = expertFreezerProfile.Email,
                Pricing = expertFreezerProfile.Pricing,
                ProfilePic = expertFreezerProfile.ProfilePic,
                ExtraPics = expertFreezerProfile.ExtraPics,

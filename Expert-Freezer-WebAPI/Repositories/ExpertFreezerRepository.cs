@@ -12,6 +12,10 @@ namespace ExpertFreezerAPI.Repo
         Task<ExpertFreezerProfile> CreateExpertFreezer(ExpertFreezerProfile expertFreezerProfile);
         Task<long> GetLastId();
         Task<ExpertFreezerProfile> GetLatestExpertFreezer();
+        Task<bool> UserExists(string username);
+        Task AddUser(User user);
+        Task<User> FindUserById(long id);
+        Task SaveChangesAsync();
     }
 
     public class ExpertFreezerRepository : IExpertFreezerRepository
@@ -21,6 +25,26 @@ namespace ExpertFreezerAPI.Repo
         public ExpertFreezerRepository(ExpertFreezerContext context)
         {
             _context = context;
+        }
+
+        public async Task<bool> UserExists(string username)
+        {
+            return await _context.Users.AnyAsync(u => u.Username == username);
+        }
+
+        public async Task AddUser(User user)
+        {
+            await _context.Users.AddAsync(user);
+        }
+
+        public async Task<User> FindUserById(long id)
+        {
+            return await _context.Users.FindAsync(id);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
 
         public async Task<ExpertFreezerProfile> GetExpertFreezer(long id)
