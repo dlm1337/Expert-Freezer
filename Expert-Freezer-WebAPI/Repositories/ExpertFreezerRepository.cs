@@ -11,10 +11,9 @@ namespace ExpertFreezerAPI.Repo
         Task<ExpertFreezerProfile> GetExpertFreezer(long id);
         Task<ExpertFreezerProfile> CreateExpertFreezer(ExpertFreezerProfile expertFreezerProfile);
         Task<long> GetLastId();
-        Task<ExpertFreezerProfile> GetLatestExpertFreezer();
         Task<bool> UserExists(string username);
         Task AddUser(User user);
-        Task<User> FindUserById(long id);
+        Task<User> FindUserByUsername(string username);
         Task SaveChangesAsync();
     }
 
@@ -37,9 +36,9 @@ namespace ExpertFreezerAPI.Repo
             await _context.users.AddAsync(user);
         }
 
-        public async Task<User> FindUserById(long id)
+        public async Task<User> FindUserByUsername(string username)
         {
-            return await _context.users.FindAsync(id);
+            return await _context.users.FindAsync(username);
         }
 
         public async Task SaveChangesAsync()
@@ -72,16 +71,5 @@ namespace ExpertFreezerAPI.Repo
             return await _context.expertFreezerProfiles.MaxAsync(x => (long?)x.Id) ?? 0;
         }
 
-        public async Task<ExpertFreezerProfile> GetLatestExpertFreezer()
-        {
-            var latestExpertFreezer = await _context.expertFreezerProfiles.OrderByDescending(x => x.Id).FirstOrDefaultAsync();
-
-            if (latestExpertFreezer == null)
-            {
-                throw new Exception("No ExpertFreezer found.");
-            }
-
-            return latestExpertFreezer;
-        }
     }
 }

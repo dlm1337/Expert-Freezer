@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using ExpertFreezerAPI.Models;
 using ExpertFreezerAPI.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExpertFreezerAPI.Controllers
 {
@@ -9,19 +9,23 @@ namespace ExpertFreezerAPI.Controllers
     [ApiController]
     public class ExpertFreezerController : ControllerBase
     {
-        private readonly IExpertFreezerService _ExpertFreezerService;
+        private readonly IExpertFreezerService _expertFreezerService;
+        private readonly ITokenService _tokenService;
 
-        public ExpertFreezerController(IExpertFreezerService ExpertFreezerService)
+        public ExpertFreezerController(IExpertFreezerService expertFreezerService, ITokenService tokenService)
         {
-            _ExpertFreezerService = ExpertFreezerService;
+            _expertFreezerService = expertFreezerService;
+            _tokenService = tokenService;
         }
 
+
+        [AllowAnonymous] // Allows access without authentication
         [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> Register(RegistrationDTO registrationDTO)
         {
             try
             {
-                var userDTO = await _ExpertFreezerService.Register(registrationDTO);
+                var userDTO = await _expertFreezerService.Register(registrationDTO);
                 return CreatedAtAction(nameof(GetUser), new { id = userDTO.Id }, userDTO);
             }
             catch (Exception ex)
@@ -30,10 +34,26 @@ namespace ExpertFreezerAPI.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetUser(long id)
+        [AllowAnonymous] // Allows access without authentication
+        [HttpPost("login")]
+        public async Task<ActionResult<string>> Login(LoginDTO loginDTO)
         {
-            var userDTO = await _ExpertFreezerService.GetUser(id);
+            var user = await _expertFreezerService.Login(loginDTO);
+
+            if (user == null)
+            {
+                return Unauthorized("Invalid username or password");
+            }
+
+            var token = _tokenService.GenerateToken(user.Username);
+            return Ok(token);
+        }
+
+        [AllowAnonymous] // Allows access without authentication
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserDTO>> GetUser(string username)
+        {
+            var userDTO = await _expertFreezerService.GetUser(username);
 
             if (userDTO == null)
             {
@@ -43,40 +63,30 @@ namespace ExpertFreezerAPI.Controllers
             return Ok(userDTO);
         }
 
+        [AllowAnonymous] // Allows access without authentication
         [HttpGet("{id}")]
         public async Task<ActionResult<ExpertFreezerProfileDTO>> GetExpertFreezer(long id)
         {
-            var ExpertFreezer = await _ExpertFreezerService.GetExpertFreezer(id);
+            var expertFreezer = await _expertFreezerService.GetExpertFreezer(id);
 
-            if (ExpertFreezer == null)
+            if (expertFreezer == null)
             {
                 return NotFound();
             }
 
-            return Ok(ExpertFreezer);
+            return Ok(expertFreezer);
         }
 
+        [Authorize] // Requires authentication for this endpoint
         [HttpPost]
-        public async Task<ActionResult<ExpertFreezerProfileDTO>> CreateExpertFreezer([FromForm] ExpertFreezerProfileDTO ExpertFreezerProfileDTO)
+        public async Task<ActionResult<ExpertFreezerProfileDTO>> CreateExpertFreezer([FromForm] ExpertFreezerProfileDTO expertFreezerProfileDTO)
         {
-            var createdExpertFreezer = await _ExpertFreezerService.CreateExpertFreezer(ExpertFreezerProfileDTO);
+            var createdExpertFreezer = await _expertFreezerService.CreateExpertFreezer(expertFreezerProfileDTO);
 
             return CreatedAtAction(nameof(GetExpertFreezer),
                 new { id = createdExpertFreezer.Id },
                 createdExpertFreezer);
         }
 
-        [HttpGet("Latest")]
-        public async Task<ActionResult<ExpertFreezerProfileDTO>> GetLatestExpertFreezer()
-        {
-            var latestExpertFreezer = await _ExpertFreezerService.GetLatestExpertFreezer();
-
-            if (latestExpertFreezer == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(latestExpertFreezer);
-        }
     }
 }

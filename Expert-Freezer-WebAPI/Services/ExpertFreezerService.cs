@@ -8,9 +8,9 @@ namespace ExpertFreezerAPI.Service
     {
         Task<ExpertFreezerProfileDTO> GetExpertFreezer(long id);
         Task<ExpertFreezerProfileDTO> CreateExpertFreezer(ExpertFreezerProfileDTO ExpertFreezerProfileDTO);
-        Task<ExpertFreezerProfileDTO> GetLatestExpertFreezer();
         Task<UserDTO> Register(RegistrationDTO registrationDTO);
-        Task<UserDTO> GetUser(long id);
+        Task<UserDTO> GetUser(string username);
+        Task<UserDTO> Login(LoginDTO loginDTO);
     }
 
     public class ExpertFreezerService : IExpertFreezerService
@@ -53,10 +53,33 @@ namespace ExpertFreezerAPI.Service
 
             return userDTO;
         }
-
-        public async Task<UserDTO> GetUser(long id)
+        public async Task<UserDTO> Login(LoginDTO loginDTO)
         {
-            var user = await _repository.FindUserById(id);
+            var user = await _repository.FindUserByUsername(loginDTO.Username);
+
+            if (user == null)
+            {
+                return null; // User not found
+            }
+
+            var result = _passwordHasher.VerifyHashedPassword(user, user.Password, loginDTO.Password);
+
+            if (result != PasswordVerificationResult.Success)
+            {
+                return null; // Password verification failed
+            }
+
+            // Password verification successful, return user DTO
+            return new UserDTO
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email
+            };
+        }
+        public async Task<UserDTO> GetUser(string username)
+        {
+            var user = await _repository.FindUserByUsername(username);
 
             if (user == null)
             {
@@ -84,7 +107,7 @@ namespace ExpertFreezerAPI.Service
                     throw new Exception($"ExpertFreezer with id {id} not found.");
                 }
 
-                return ItemToDTO(expertFreezerProfile);
+                return ProfileToDTO(expertFreezerProfile);
             }
             catch (Exception ex)
             {
@@ -101,6 +124,7 @@ namespace ExpertFreezerAPI.Service
             var expertFreezerProfile = new ExpertFreezerProfile
             {
                 Id = nextId,
+                Username = expertFreezerProfileDTO.Username,
                 CompanyName = expertFreezerProfileDTO.CompanyName,
                 CompanyDescription = expertFreezerProfileDTO.CompanyDescription,
                 Services = expertFreezerProfileDTO.Services,
@@ -114,32 +138,14 @@ namespace ExpertFreezerAPI.Service
 
             var createdExpertFreezer = await _repository.CreateExpertFreezer(expertFreezerProfile);
 
-            return ItemToDTO(createdExpertFreezer);
+            return ProfileToDTO(createdExpertFreezer);
         }
 
-        public async Task<ExpertFreezerProfileDTO> GetLatestExpertFreezer()
-        {
-            try
-            {
-                var latestExpertFreezer = await _repository.GetLatestExpertFreezer();
-
-                if (latestExpertFreezer == null)
-                {
-                    throw new Exception("No ExpertFreezer found.");
-                }
-
-                return ItemToDTO(latestExpertFreezer);
-            }
-            catch (Exception ex)
-            {
-                // Log the exception or handle it in some other way
-                throw new Exception("An error occurred while getting the latest ExpertFreezer.", ex);
-            }
-        }
-        private static ExpertFreezerProfileDTO ItemToDTO(ExpertFreezerProfile expertFreezerProfile) =>
+        private static ExpertFreezerProfileDTO ProfileToDTO(ExpertFreezerProfile expertFreezerProfile) =>
            new ExpertFreezerProfileDTO
            {
                Id = expertFreezerProfile.Id,
+               Username = expertFreezerProfile.Username,
                CompanyName = expertFreezerProfile.CompanyName,
                CompanyDescription = expertFreezerProfile.CompanyDescription,
                Services = expertFreezerProfile.Services,

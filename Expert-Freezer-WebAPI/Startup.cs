@@ -1,12 +1,12 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using ExpertFreezerAPI.Data;
 using ExpertFreezerAPI.Repo;
 using ExpertFreezerAPI.Service;
+using Microsoft.AspNetCore.Identity;
+using ExpertFreezerAPI.Models;
 
 namespace ExpertFreezerAPI
 {
@@ -19,7 +19,6 @@ namespace ExpertFreezerAPI
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // Add configuration
@@ -30,17 +29,43 @@ namespace ExpertFreezerAPI
 
             // Add services
             services.AddScoped<IExpertFreezerService, ExpertFreezerService>();
+            services.AddScoped<ITokenService, TokenService>();
+
+            // Register the IPasswordHasher<User> service
+            services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
             // Add DbContext
             services.AddDbContext<ExpertFreezerContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("WebApiDatabase")));
 
+            // Add JWT authentication
+            var key = Encoding.ASCII.GetBytes(Configuration["Jwt:Key"]);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+            });
+
             // Add other services as needed
             services.AddControllers();
-            services.AddCors();
+            services.AddCors(); 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -55,6 +80,7 @@ namespace ExpertFreezerAPI
 
             app.UseRouting();
 
+            app.UseAuthentication(); // Ensure this line is added to enable authentication
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
