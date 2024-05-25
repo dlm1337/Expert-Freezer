@@ -33,9 +33,9 @@ namespace ExpertFreezerAPI.Service
 
             var user = new User
             {
-                Username = registrationDTO.Username,
-                Email = registrationDTO.Email,
-                Password = registrationDTO.Password
+                Username = registrationDTO.Username, 
+                Password = registrationDTO.Password,
+                Email = registrationDTO.Email
             };
 
             // Hash the password before saving
@@ -118,7 +118,7 @@ namespace ExpertFreezerAPI.Service
 
         public async Task<ExpertFreezerProfileDTO> CreateExpertFreezer(ExpertFreezerProfileDTO expertFreezerProfileDTO)
         {
-            var lastId = await _repository.GetLastId();
+            var lastId = await _repository.GetLastProfileID();
             var nextId = lastId + 1;
 
             var expertFreezerProfile = new ExpertFreezerProfile

@@ -29,8 +29,23 @@ export class RestService {
   //   );
   // }
 
-  saveUserInfo(req: FormData): Observable<FormData> {
-    const url = `${this.url}api/ExpertFreezerProfile`;
+  login(req: FormData): Observable<FormData> {
+    const url = `${this.url}api/ExpertFreezerProfile/login`;
+    console.log(req);
+
+    return this.http.post(url, req).pipe(
+      map((resp: any) => {
+        return resp;
+      }),
+      catchError((error) => {
+        console.log(error);
+        return of(error);
+      })
+    );
+  }
+
+  register(req: FormData): Observable<FormData> {
+    const url = `${this.url}api/ExpertFreezerProfile/register`;
     console.log(req);
 
     return this.http.post(url, req).pipe(

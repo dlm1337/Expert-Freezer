@@ -10,7 +10,7 @@ namespace ExpertFreezerAPI.Repo
     {
         Task<ExpertFreezerProfile> GetExpertFreezer(long id);
         Task<ExpertFreezerProfile> CreateExpertFreezer(ExpertFreezerProfile expertFreezerProfile);
-        Task<long> GetLastId();
+        Task<long> GetLastProfileID();
         Task<bool> UserExists(string username);
         Task AddUser(User user);
         Task<User> FindUserByUsername(string username);
@@ -66,7 +66,7 @@ namespace ExpertFreezerAPI.Repo
             return expertFreezerProfile;
         }
 
-        public async Task<long> GetLastId()
+        public async Task<long> GetLastProfileID()
         {
             return await _context.expertFreezerProfiles.MaxAsync(x => (long?)x.Id) ?? 0;
         }

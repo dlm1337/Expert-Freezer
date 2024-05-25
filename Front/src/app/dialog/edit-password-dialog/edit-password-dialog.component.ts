@@ -48,7 +48,7 @@ export class EditPasswordDialogComponent {
       console.log(formData);
 
       // Submit formData to the backend
-      this.restSvc.saveUserInfo(formData).subscribe((resp) => {
+      this.restSvc.login(formData).subscribe((resp) => {
         if (resp) {
           console.log('User info saved successfully:', resp);
         } else {

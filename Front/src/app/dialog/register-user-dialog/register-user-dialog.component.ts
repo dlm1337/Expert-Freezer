@@ -29,6 +29,7 @@ export class RegisterUserDialogComponent {
       username: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
+      email: ['', Validators.required]
     }, {
       validators: passwordMatchValidator // Attach the custom validator function here
     });
@@ -40,16 +41,16 @@ export class RegisterUserDialogComponent {
       const formData = new FormData();
 
       Object.keys(formValue).forEach(key => {
-
-        const controlValue = formValue[key];
-        formData.append(key, controlValue);
-
+        if (key !== 'confirmPassword') { // Exclude 'confirmPassword' field
+          const controlValue = formValue[key];
+          formData.append(key, controlValue);
+        }
       });
 
       console.log(formData);
 
       // Submit formData to the backend
-      this.restSvc.saveUserInfo(formData).subscribe((resp) => {
+      this.restSvc.register(formData).subscribe((resp) => {
         if (resp) {
           console.log('User info saved successfully:', resp);
         } else {

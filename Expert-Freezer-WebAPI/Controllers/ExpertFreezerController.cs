@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ExpertFreezerAPI.Controllers
 {
-    [Route("api/ExpertFreezerProfile")]
+    [Route("api/ExpertFreezerProfile/")]
     [ApiController]
     public class ExpertFreezerController : ControllerBase
     {
@@ -21,7 +21,7 @@ namespace ExpertFreezerAPI.Controllers
 
         [AllowAnonymous] // Allows access without authentication
         [HttpPost("register")]
-        public async Task<ActionResult<UserDTO>> Register(RegistrationDTO registrationDTO)
+        public async Task<ActionResult<UserDTO>> Register([FromForm] RegistrationDTO registrationDTO)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace ExpertFreezerAPI.Controllers
 
         [AllowAnonymous] // Allows access without authentication
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(LoginDTO loginDTO)
+        public async Task<ActionResult<string>> Login([FromForm] LoginDTO loginDTO)
         {
             var user = await _expertFreezerService.Login(loginDTO);
 
@@ -78,7 +78,7 @@ namespace ExpertFreezerAPI.Controllers
         }
 
         [Authorize] // Requires authentication for this endpoint
-        [HttpPost]
+         [HttpPost("profile")]
         public async Task<ActionResult<ExpertFreezerProfileDTO>> CreateExpertFreezer([FromForm] ExpertFreezerProfileDTO expertFreezerProfileDTO)
         {
             var createdExpertFreezer = await _expertFreezerService.CreateExpertFreezer(expertFreezerProfileDTO);

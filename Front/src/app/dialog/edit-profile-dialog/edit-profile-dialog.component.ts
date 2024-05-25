@@ -89,7 +89,7 @@ export class EditProfileDialogComponent {
       // Wait for all file conversion promises to resolve
       Promise.all(filePromises).then(() => {
         // Submit formData to the backend
-        this.restSvc.saveUserInfo(formData).subscribe((resp) => {
+        this.restSvc.login(formData).subscribe((resp) => {
           if (resp) {
             console.log('User info saved successfully:', resp);
           } else {
