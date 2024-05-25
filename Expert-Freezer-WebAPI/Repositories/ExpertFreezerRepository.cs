@@ -29,17 +29,17 @@ namespace ExpertFreezerAPI.Repo
 
         public async Task<bool> UserExists(string username)
         {
-            return await _context.Users.AnyAsync(u => u.Username == username);
+            return await _context.users.AnyAsync(u => u.Username == username);
         }
 
         public async Task AddUser(User user)
         {
-            await _context.Users.AddAsync(user);
+            await _context.users.AddAsync(user);
         }
 
         public async Task<User> FindUserById(long id)
         {
-            return await _context.Users.FindAsync(id);
+            return await _context.users.FindAsync(id);
         }
 
         public async Task SaveChangesAsync()
