@@ -31,11 +31,11 @@ export class RestService {
 
   login(req: FormData): Observable<FormData> {
     const url = `${this.url}api/ExpertFreezerProfile/login`;
-    console.log(req);
 
     return this.http.post(url, req).pipe(
       map((resp: any) => {
-        return resp;
+        // Assuming the response contains a 'token' property
+        return resp.token as string; // Extract and return the token
       }),
       catchError((error) => {
         console.log(error);
@@ -46,7 +46,6 @@ export class RestService {
 
   register(req: FormData): Observable<FormData> {
     const url = `${this.url}api/ExpertFreezerProfile/register`;
-    console.log(req);
 
     return this.http.post(url, req).pipe(
       map((resp: any) => {

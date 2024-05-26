@@ -34,9 +34,9 @@ namespace ExpertFreezerAPI.Controllers
             }
         }
 
-        [AllowAnonymous] // Allows access without authentication
+        [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login([FromForm] LoginDTO loginDTO)
+        public async Task<ActionResult> Login([FromForm] LoginDTO loginDTO)
         {
             var user = await _expertFreezerService.Login(loginDTO);
 
@@ -46,10 +46,10 @@ namespace ExpertFreezerAPI.Controllers
             }
 
             var token = _tokenService.GenerateToken(user.Username);
-            return Ok(token);
+            return Ok(new { token });
         }
 
-        [AllowAnonymous] // Allows access without authentication
+        [AllowAnonymous] // Allwows access without authentication
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDTO>> GetUser(string username)
         {
@@ -78,7 +78,7 @@ namespace ExpertFreezerAPI.Controllers
         }
 
         [Authorize] // Requires authentication for this endpoint
-         [HttpPost("profile")]
+        [HttpPost("profile")]
         public async Task<ActionResult<ExpertFreezerProfileDTO>> CreateExpertFreezer([FromForm] ExpertFreezerProfileDTO expertFreezerProfileDTO)
         {
             var createdExpertFreezer = await _expertFreezerService.CreateExpertFreezer(expertFreezerProfileDTO);

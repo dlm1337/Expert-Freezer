@@ -50,9 +50,9 @@ export class LoginDialogComponent {
       // Submit formData to the backend
       this.restSvc.login(formData).subscribe((resp) => {
         if (resp) {
-          console.log('User info saved successfully:', resp);
+          console.log('You are logged in and here is the token:', resp);
         } else {
-          const err = new Error('User info did not save');
+          const err = new Error('Probably something wrong with your username or password. It could be an auth error as well.');
           throwError(() => err);
         }
       });

@@ -38,7 +38,7 @@ namespace ExpertFreezerAPI.Repo
 
         public async Task<User> FindUserByUsername(string username)
         {
-            return await _context.users.FindAsync(username);
+            return await _context.users.FirstOrDefaultAsync(u => u.Username == username);
         }
 
         public async Task SaveChangesAsync()
