@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ConfigService } from './config.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ import { ConfigService } from './config.service';
 export class RestService {
   private url = '';
 
-  constructor(private http: HttpClient, private cfg: ConfigService) {
+  constructor(private http: HttpClient, private cfg: ConfigService, private authService: AuthService) {
     console.log(this.cfg);
     this.url = this.cfg.apiBaseUrl;
   }
@@ -34,8 +35,8 @@ export class RestService {
 
     return this.http.post(url, req).pipe(
       map((resp: any) => {
-        // Assuming the response contains a 'token' property
-        return resp.token as string; // Extract and return the token
+        this.authService.setToken(resp.token);
+        console.log(this.authService.getToken());
       }),
       catchError((error) => {
         console.log(error);

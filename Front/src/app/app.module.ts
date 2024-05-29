@@ -28,6 +28,9 @@ import { SideBarComponent } from './side-bar/side-bar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { FeedComponent } from './feed/feed.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './services/auth.guard';
+import { TokenInterceptor } from './services/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -65,8 +68,11 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatButtonModule,
   ],
   providers: [
+    AuthService,
+    AuthGuard,
     {
       provide: APP_INITIALIZER,
+      useClass: TokenInterceptor,
       multi: true,
       deps: [ConfigService],
       useFactory: (configService: ConfigService) => () =>
