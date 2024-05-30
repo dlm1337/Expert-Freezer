@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { RegisterUserDialogComponent } from '../dialog/register-user-dialog/register-user-dialog.component';
 import { LoginDialogComponent } from '../dialog/login-dialog/login-dialog.component';
+import { EditProfileDialogComponent } from '../dialog/edit-profile-dialog/edit-profile-dialog.component';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -11,7 +13,7 @@ import { LoginDialogComponent } from '../dialog/login-dialog/login-dialog.compon
 })
 
 export class NavBarComponent {
-  constructor(private matDialog: MatDialog) { }
+  constructor(private matDialog: MatDialog, private authService: AuthService) { }
 
 
   openRegisterDialog() {
@@ -24,6 +26,14 @@ export class NavBarComponent {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = 'some data';
     let dialogRef = this.matDialog.open(LoginDialogComponent, dialogConfig);
+  }
+
+  openEditProfileDialog() {
+    if (this.authService.isLoggedIn()) {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.data = 'some data';
+      let dialogRef = this.matDialog.open(EditProfileDialogComponent, dialogConfig);
+    }
   }
 
 }

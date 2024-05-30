@@ -11,15 +11,15 @@ export class AuthService {
     constructor(private router: Router) { }
 
     setToken(token: string): void {
-        localStorage.setItem(this.tokenKey, token);
+        sessionStorage.setItem(this.tokenKey, token);
     }
 
     getToken(): string | null {
-        return localStorage.getItem(this.tokenKey);
+        return sessionStorage.getItem(this.tokenKey);
     }
 
     removeToken(): void {
-        localStorage.removeItem(this.tokenKey);
+        sessionStorage.removeItem(this.tokenKey);
     }
 
     isLoggedIn(): boolean {

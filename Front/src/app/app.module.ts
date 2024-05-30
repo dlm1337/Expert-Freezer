@@ -29,7 +29,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { FeedComponent } from './feed/feed.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AuthService } from './services/auth.service';
-import { AuthGuard } from './services/auth.guard';
 import { TokenInterceptor } from './services/token.interceptor';
 
 @NgModule({
@@ -69,7 +68,6 @@ import { TokenInterceptor } from './services/token.interceptor';
   ],
   providers: [
     AuthService,
-    AuthGuard,
     {
       provide: APP_INITIALIZER,
       useClass: TokenInterceptor,
