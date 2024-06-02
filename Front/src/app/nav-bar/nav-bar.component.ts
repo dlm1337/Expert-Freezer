@@ -16,6 +16,19 @@ export class NavBarComponent {
   constructor(private matDialog: MatDialog, private authService: AuthService) { }
 
 
+  isLoggedIn() {
+    if (this.authService.isLoggedIn()) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  logout(){
+    this.authService.logout();
+  }
+
   openRegisterDialog() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = 'some data';
