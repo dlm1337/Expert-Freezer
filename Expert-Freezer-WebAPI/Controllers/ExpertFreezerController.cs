@@ -77,16 +77,16 @@ namespace ExpertFreezerAPI.Controllers
             return Ok(expertFreezer);
         }
 
-        [Authorize] // Requires authentication for this endpoint
-        [HttpPost("profile")]
-        public async Task<ActionResult<ExpertFreezerProfileDTO>> CreateExpertFreezer([FromForm] ExpertFreezerProfileDTO expertFreezerProfileDTO)
-        {
-            var createdExpertFreezer = await _expertFreezerService.CreateExpertFreezer(expertFreezerProfileDTO);
+        // [Authorize] // Requires authentication for this endpoint
+        // [HttpPost("profile")]
+        // public async Task<ActionResult<ExpertFreezerProfileDTO>> CreateExpertFreezer([FromForm] ExpertFreezerProfileDTO expertFreezerProfileDTO)
+        // {
+        //     var createdExpertFreezer = await _expertFreezerService.CreateExpertFreezer(expertFreezerProfileDTO);
 
-            return CreatedAtAction(nameof(GetExpertFreezer),
-                new { id = createdExpertFreezer.Id },
-                createdExpertFreezer);
-        }
+        //     return CreatedAtAction(nameof(GetExpertFreezer),
+        //         new { id = createdExpertFreezer.Id },
+        //         createdExpertFreezer);
+        // }
 
     }
 }

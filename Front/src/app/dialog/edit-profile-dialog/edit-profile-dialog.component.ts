@@ -20,7 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 export class EditProfileDialogComponent {
   form: FormGroup;
   profilePic: File | null = null;
-  extraPics: File[] = [];
+  extraPics: { file: File, desc: string }[] = [];
 
   constructor(private formBuilder: FormBuilder, private restSvc: RestService,
     private dialogRef: MatDialogRef<EditProfileDialogComponent>) {
@@ -43,8 +43,38 @@ export class EditProfileDialogComponent {
       if (controlName === 'profilePic') {
         this.profilePic = fileInput.files[0];
       } else if (controlName === 'extraPics') {
-        this.extraPics = Array.from(fileInput.files);
+        // Assuming multiple files can be selected for extraPics
+        const files: File[] = Array.from(fileInput.files);
+        const extraPicDesc = this.form.get('extraPicsDesc')?.value;
+        if (extraPicDesc) {
+          files.forEach(file => {
+            this.extraPics.push({ file, desc: extraPicDesc });
+          });
+          this.resetExtraPicForm();
+        }
       }
+    }
+  }
+
+  addExtraPic(): void {
+    const fileInput = document.getElementById('extraPics') as HTMLInputElement;
+    const extraPicDesc = this.form.get('extraPicsDesc')?.value;
+    if (fileInput && fileInput.files && extraPicDesc) {
+      const files: File[] = Array.from(fileInput.files);
+      files.forEach(file => {
+        this.extraPics.push({ file, desc: extraPicDesc });
+      });
+      this.resetExtraPicForm();
+    }
+  }
+
+  resetExtraPicForm(): void {
+    this.form.patchValue({
+      extraPicsDesc: ''
+    });
+    const fileInput = document.getElementById('extraPics') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
     }
   }
 
@@ -73,7 +103,8 @@ export class EditProfileDialogComponent {
           filePromises.push(filePromise);
         } else if (key === 'extraPics' && this.extraPics.length > 0) {
           console.log('At extra pics.');
-          const base64Promises = this.extraPics.map(file => this.convertFileToBase64(file));
+          this.extraPics.map(file => formData.append('extraPicsDesc', file.desc));
+          const base64Promises = this.extraPics.map(file => this.convertFileToBase64(file.file));
           const filesPromise = Promise.all(base64Promises).then(base64Strings => {
             base64Strings.forEach(base64String => formData.append(key, base64String));
           });

@@ -7,7 +7,7 @@ namespace ExpertFreezerAPI.Service
     public interface IExpertFreezerService
     {
         Task<ExpertFreezerProfileDTO> GetExpertFreezer(long id);
-        Task<ExpertFreezerProfileDTO> CreateExpertFreezer(ExpertFreezerProfileDTO ExpertFreezerProfileDTO);
+        Task<ExpertFreezerProfileDTO> CreateExpertFreezer(long userId, ExpertFreezerProfileDTO ExpertFreezerProfileDTO);
         Task<UserDTO> Register(RegistrationDTO registrationDTO);
         Task<UserDTO> GetUser(string username);
         Task<UserDTO> Login(LoginDTO loginDTO);
@@ -33,7 +33,7 @@ namespace ExpertFreezerAPI.Service
 
             var user = new User
             {
-                Username = registrationDTO.Username, 
+                Username = registrationDTO.Username,
                 Password = registrationDTO.Password,
                 Email = registrationDTO.Email
             };
@@ -43,6 +43,14 @@ namespace ExpertFreezerAPI.Service
 
             await _repository.AddUser(user);
             await _repository.SaveChangesAsync();
+
+            // Create ExpertFreezer profile
+            var expertFreezerProfileDTO = new ExpertFreezerProfileDTO
+            {
+                Username = registrationDTO.Username
+            };
+
+            await CreateExpertFreezer(user.Id, expertFreezerProfileDTO);
 
             var userDTO = new UserDTO
             {
@@ -116,14 +124,11 @@ namespace ExpertFreezerAPI.Service
             }
         }
 
-        public async Task<ExpertFreezerProfileDTO> CreateExpertFreezer(ExpertFreezerProfileDTO expertFreezerProfileDTO)
+        public async Task<ExpertFreezerProfileDTO> CreateExpertFreezer(long userId, ExpertFreezerProfileDTO expertFreezerProfileDTO)
         {
-            var lastId = await _repository.GetLastProfileID();
-            var nextId = lastId + 1;
-
             var expertFreezerProfile = new ExpertFreezerProfile
             {
-                Id = nextId,
+                Id = userId,  // Use the user ID directly
                 Username = expertFreezerProfileDTO.Username,
                 CompanyName = expertFreezerProfileDTO.CompanyName,
                 CompanyDescription = expertFreezerProfileDTO.CompanyDescription,

@@ -3,7 +3,7 @@ namespace ExpertFreezerAPI.Models
     public class ExpertFreezerProfileDTO
     {
         public long? Id { get; set; }
-            public string? Username { get; set; }
+        public string? Username { get; set; }
         public string? CompanyName { get; set; }
         public string? ProfilePic { get; set; }
         public List<string>? ExtraPics { get; set; }

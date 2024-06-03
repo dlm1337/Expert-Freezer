@@ -3,7 +3,7 @@
 <mat-dialog-content class="content">
     <form [formGroup]="form">
         <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Company Name (Optional)</mat-label>
+            <mat-label>Company Name</mat-label>
             <input matInput formControlName="companyName">
         </mat-form-field>
 
@@ -13,14 +13,23 @@
         </div>
 
         <div class="example-full-width">
-            <label for="extraPics">Extra Pictures (Optional)</label>
+            <label for="extraPics">Extra Pictures</label>
             <input type="file" id="extraPics" (change)="onFileChange($event, 'extraPics')" multiple />
         </div>
 
         <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Photo Description (Optional)</mat-label>
+            <mat-label>Photo Description</mat-label>
             <textarea matInput formControlName="extraPicsDesc"></textarea>
         </mat-form-field>
+
+        <button type="button" (click)="addExtraPic()">Add Extra Picture</button>
+        <button type="button" (click)="resetExtraPicForm()">Reset</button>
+
+        <ul>
+            <li *ngFor="let pic of extraPics">
+                <p>{{ pic.file.name }} - {{ pic.desc }}</p>
+            </li>
+        </ul>
 
         <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Company Description</mat-label>
@@ -33,7 +42,7 @@
         </mat-form-field>
 
         <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Address (Optional)</mat-label>
+            <mat-label>Address</mat-label>
             <textarea matInput formControlName="address"></textarea>
         </mat-form-field>
 
