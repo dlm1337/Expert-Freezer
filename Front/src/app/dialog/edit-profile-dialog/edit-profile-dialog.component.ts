@@ -42,16 +42,6 @@ export class EditProfileDialogComponent {
     if (fileInput.files.length > 0) {
       if (controlName === 'profilePic') {
         this.profilePic = fileInput.files[0];
-      } else if (controlName === 'extraPics') {
-        // Assuming multiple files can be selected for extraPics
-        const files: File[] = Array.from(fileInput.files);
-        const extraPicDesc = this.form.get('extraPicsDesc')?.value;
-        if (extraPicDesc) {
-          files.forEach(file => {
-            this.extraPics.push({ file, desc: extraPicDesc });
-          });
-          this.resetExtraPicForm();
-        }
       }
     }
   }
@@ -59,12 +49,15 @@ export class EditProfileDialogComponent {
   addExtraPic(): void {
     const fileInput = document.getElementById('extraPics') as HTMLInputElement;
     const extraPicDesc = this.form.get('extraPicsDesc')?.value;
-    if (fileInput && fileInput.files && extraPicDesc) {
+    if (fileInput && fileInput.files && extraPicDesc && this.extraPics.length < 4) {
       const files: File[] = Array.from(fileInput.files);
       files.forEach(file => {
         this.extraPics.push({ file, desc: extraPicDesc });
       });
       this.resetExtraPicForm();
+    }
+    else {
+      console.log('to many photos!')
     }
   }
 
