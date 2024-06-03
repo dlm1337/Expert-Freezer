@@ -78,6 +78,11 @@ export class EditProfileDialogComponent {
     }
   }
 
+  removeExtraPic(name: string) {
+    this.extraPics = this.extraPics.filter(x => x.file.name !== name)
+    console.log(this.extraPics);
+  }
+
   convertFileToBase64(file: File): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       const reader = new FileReader();

@@ -23,11 +23,13 @@
         </mat-form-field>
 
         <button type="button" (click)="addExtraPic()">Add Extra Picture</button>
-        <button type="button" (click)="resetExtraPicForm()">Reset</button>
+
 
         <ul>
             <li *ngFor="let pic of extraPics">
-                <p>{{ pic.file.name }} - {{ pic.desc }}</p>
+                <p>{{ pic.file.name }} - {{ pic.desc }}
+                    <button type="button" (click)="removeExtraPic(pic.file.name)">X</button>
+                </p>
             </li>
         </ul>
 
