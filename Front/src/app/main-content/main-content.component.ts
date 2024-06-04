@@ -41,6 +41,8 @@ export class MainContentComponent {
     console.log(data);
     if (data === "Profile") {
       this.tiles[2].component = ProfileComponent;
+    } else {
+      this.tiles[2].component = FeedComponent;
     }
   });
 

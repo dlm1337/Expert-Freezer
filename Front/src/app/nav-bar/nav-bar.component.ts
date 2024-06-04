@@ -50,7 +50,16 @@ export class NavBarComponent {
     }
   }
 
-  updateMessage() {
+  onTabClick(event: any) {
+    const index = event.index;
+    if (index === 2) {
+      this.goToProfile();
+    } else {
+      this.restSvc.setMessage('Any for now')
+    }
+  }
+
+  goToProfile() {
     this.restSvc.setMessage('Profile')
   }
 
