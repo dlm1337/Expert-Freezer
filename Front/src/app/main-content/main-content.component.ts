@@ -5,6 +5,7 @@ import { SideBarComponent } from '../side-bar/side-bar.component';
 import { FeedComponent } from '../feed/feed.component';
 import { RestService } from 'src/app/services/rest.service';
 import { ProfileComponent } from '../profile/profile.component';
+import { AuthService } from '../services/auth.service';
 
 
 export interface Tile {
@@ -25,8 +26,12 @@ export interface Tile {
 })
 export class MainContentComponent {
 
-  constructor(private restSvc: RestService) { }
-  //mat-grid-list is populated from the data below. This is the main layout of the app.
+  constructor(private restSvc: RestService, private authService: AuthService) { }
+
+  /* mat-grid-list is populated from the data below. This is the main layout of the app 
+     which eliminates the need for most routing. This approach allows for more flexibility, but 
+     is considered harder to maintain in larger scale apps. */
+
   tiles: Tile[] = [
     {
       component: NavBarComponent, text: 'One', cols: 4, rows: 1, color: 'lightblue', position: 'fixed',
@@ -39,7 +44,7 @@ export class MainContentComponent {
 
   public subscription = this.restSvc.getMessage.subscribe(data => {
     console.log(data);
-    if (data === "Profile") {
+    if (data === "Profile" && this.authService.isLoggedIn()) {
       this.tiles[2].component = ProfileComponent;
     } else {
       this.tiles[2].component = FeedComponent;
