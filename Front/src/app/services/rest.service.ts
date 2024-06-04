@@ -11,9 +11,18 @@ import { AuthService } from './auth.service';
 export class RestService {
   private url = '';
 
+
+  private message = new BehaviorSubject('init msg');
+  getMessage = this.message.asObservable();
+
+
   constructor(private http: HttpClient, private cfg: ConfigService, private authService: AuthService) {
     console.log(this.cfg);
     this.url = this.cfg.apiBaseUrl;
+  }
+
+  setMessage(message: string) {
+    this.message.next(message);
   }
 
 
@@ -45,8 +54,6 @@ export class RestService {
       })
     );
   }
-
-  
   // getIdOne(req: String): Observable<NameAndAddress> {
   //   const url = this.url + 'api/NameAndAddress/' + req;
 
@@ -61,7 +68,7 @@ export class RestService {
   //   );
   // }
 
-  
+
   // saveNameAndAddress(req: NameAndAddress): Observable<NameAndAddress> {
   //   const url = this.url + 'api/NameAndAddress';
   //   console.log(req);

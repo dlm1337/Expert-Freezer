@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { RestService } from 'src/app/services/rest.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { RegisterUserDialogComponent } from '../dialog/register-user-dialog/register-user-dialog.component';
 import { LoginDialogComponent } from '../dialog/login-dialog/login-dialog.component';
@@ -13,7 +14,7 @@ import { AuthService } from '../services/auth.service';
 })
 
 export class NavBarComponent {
-  constructor(private matDialog: MatDialog, private authService: AuthService) { }
+  constructor(private matDialog: MatDialog, private authService: AuthService, private restSvc: RestService) { }
 
 
   isLoggedIn() {
@@ -25,7 +26,7 @@ export class NavBarComponent {
     }
   }
 
-  logout(){
+  logout() {
     this.authService.logout();
   }
 
@@ -47,6 +48,10 @@ export class NavBarComponent {
       dialogConfig.data = 'some data';
       let dialogRef = this.matDialog.open(EditProfileDialogComponent, dialogConfig);
     }
+  }
+
+  updateMessage() {
+    this.restSvc.setMessage('Profile')
   }
 
 }

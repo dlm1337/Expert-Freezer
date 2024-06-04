@@ -43,6 +43,7 @@
         <span *ngIf="isLoggedIn(); else notLoggedIn">
           <button mat-button class="edit-profile-button" (click)="openEditProfileDialog()">Edit</button>
           <button mat-button class="logout-button" (click)="logout()">Logout</button>
+          <button mat-button (click)="updateMessage()">send msg</button>
         </span>
         <ng-template #notLoggedIn>
           <button mat-button class="register-button" (click)="openRegisterDialog()">Register</button>
