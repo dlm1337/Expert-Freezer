@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
     private tokenKey = 'authToken';
+    private id = 'id';
 
     constructor(private router: Router) { }
 
@@ -30,4 +31,13 @@ export class AuthService {
         this.removeToken();
         this.router.navigate(['/main']);
     }
+
+    setLoggedInId(id: string): any {
+        sessionStorage.setItem(this.id, id);
+    }
+
+    getLoggedInId(): string | null {
+        return sessionStorage.getItem(this.id);
+    }
+
 }

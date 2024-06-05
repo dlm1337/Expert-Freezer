@@ -10,6 +10,7 @@ namespace ExpertFreezerAPI.Repo
     {
         Task<ExpertFreezerProfile> GetExpertFreezer(long id);
         Task<ExpertFreezerProfile> CreateExpertFreezer(ExpertFreezerProfile expertFreezerProfile);
+        Task<ExpertFreezerProfile> PatchExpertFreezer(PatchProfileDTO patchProfileDTO);
         Task<long> GetLastProfileID();
         Task<bool> UserExists(string username);
         Task AddUser(User user);
@@ -64,6 +65,25 @@ namespace ExpertFreezerAPI.Repo
             await _context.SaveChangesAsync();
 
             return expertFreezerProfile;
+        }
+
+        public async Task<ExpertFreezerProfile> PatchExpertFreezer(PatchProfileDTO patchProfileDTO)
+        {
+            // Find the existing entity
+            var existingProfile = await _context.expertFreezerProfiles.FindAsync(patchProfileDTO.Id);
+
+            if (existingProfile == null)
+            {
+                throw new KeyNotFoundException($"ExpertFreezerProfile with ID {patchProfileDTO.Id} not found.");
+            }
+
+            // Update only the changed fields
+            _context.Entry(existingProfile).CurrentValues.SetValues(patchProfileDTO);
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            return existingProfile;
         }
 
         public async Task<long> GetLastProfileID()

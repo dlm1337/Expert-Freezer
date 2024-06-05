@@ -7,7 +7,8 @@ namespace ExpertFreezerAPI.Service
     public interface IExpertFreezerService
     {
         Task<ExpertFreezerProfileDTO> GetExpertFreezer(long id);
-        Task<ExpertFreezerProfileDTO> CreateExpertFreezer(long userId, ExpertFreezerProfileDTO ExpertFreezerProfileDTO);
+        Task<ExpertFreezerProfileDTO> CreateExpertFreezer(long userId, ExpertFreezerProfileDTO expertFreezerProfileDTO);
+        Task<ExpertFreezerProfileDTO> PatchExpertFreezer(PatchProfileDTO patchProfileDTO);
         Task<UserDTO> Register(RegistrationDTO registrationDTO);
         Task<UserDTO> GetUser(string username);
         Task<UserDTO> Login(LoginDTO loginDTO);
@@ -144,6 +145,16 @@ namespace ExpertFreezerAPI.Service
             var createdExpertFreezer = await _repository.CreateExpertFreezer(expertFreezerProfile);
 
             return ProfileToDTO(createdExpertFreezer);
+        }
+
+
+        public async Task<ExpertFreezerProfileDTO> PatchExpertFreezer(PatchProfileDTO patchProfileDTO)
+        {
+
+            var patchedExpertFreezer = await _repository.PatchExpertFreezer(patchProfileDTO);
+
+            return ProfileToDTO(patchedExpertFreezer);
+
         }
 
         private static ExpertFreezerProfileDTO ProfileToDTO(ExpertFreezerProfile expertFreezerProfile) =>

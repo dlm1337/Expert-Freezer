@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, } from '@angular/forms';
 import { MatDialogRef, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { throwError } from 'rxjs';
@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-edit-profile-dialog',
@@ -17,14 +18,20 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './edit-profile-dialog.component.scss'
 })
 
-export class EditProfileDialogComponent {
+export class EditProfileDialogComponent implements OnInit {
   form: FormGroup;
   profilePic: File | null = null;
   extraPics: { file: File, desc: string }[] = [];
 
   constructor(private formBuilder: FormBuilder, private restSvc: RestService,
-    private dialogRef: MatDialogRef<EditProfileDialogComponent>) {
+    private dialogRef: MatDialogRef<EditProfileDialogComponent>, private authService: AuthService) {
+
+  }
+
+  ngOnInit() {
+
     this.form = this.formBuilder.group({
+      id: [this.authService.getLoggedInId()],
       companyName: [''],
       profilePic: [null],
       extraPics: [null],
@@ -35,6 +42,18 @@ export class EditProfileDialogComponent {
       pricing: ['']
 
     });
+    
+    if (this.authService.isLoggedIn()) {
+      this.restSvc.getProfileById(this.authService.getLoggedInId()).subscribe((resp) => {
+        if (resp) {
+          console.log('You are getting a profile response.', resp);
+        } else {
+          const err = new Error('Probably something wrong with the profile id.');
+          throwError(() => err);
+        }
+      });
+    }
+
   }
 
   onFileChange(event: any, controlName: string): void {
@@ -118,11 +137,11 @@ export class EditProfileDialogComponent {
       // Wait for all file conversion promises to resolve
       Promise.all(filePromises).then(() => {
         // Submit formData to the backend
-        this.restSvc.login(formData).subscribe((resp) => {
+        this.restSvc.patchProfile(formData).subscribe((resp) => {
           if (resp) {
-            console.log('User info saved successfully:', resp);
+            console.log('Profile info saved successfully:', resp);
           } else {
-            const err = new Error('User info did not save');
+            const err = new Error('Profile info did not save');
             throwError(() => err);
           }
         });

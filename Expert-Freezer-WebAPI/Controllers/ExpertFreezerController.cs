@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ExpertFreezerAPI.Controllers
 {
-    [Route("api/ExpertFreezerProfile/")]
+    [Route("api/")]
     [ApiController]
     public class ExpertFreezerController : ControllerBase
     {
@@ -46,25 +46,12 @@ namespace ExpertFreezerAPI.Controllers
             }
 
             var token = _tokenService.GenerateToken(user.Username);
-            return Ok(new { token });
+            return Ok(new { token, id = user.Id });
         }
 
-        [AllowAnonymous] // Allwows access without authentication
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetUser(string username)
-        {
-            var userDTO = await _expertFreezerService.GetUser(username);
-
-            if (userDTO == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(userDTO);
-        }
 
         [AllowAnonymous] // Allows access without authentication
-        [HttpGet("{id}")]
+        [HttpGet("profile/{id}")]
         public async Task<ActionResult<ExpertFreezerProfileDTO>> GetExpertFreezer(long id)
         {
             var expertFreezer = await _expertFreezerService.GetExpertFreezer(id);
@@ -77,16 +64,31 @@ namespace ExpertFreezerAPI.Controllers
             return Ok(expertFreezer);
         }
 
-        // [Authorize] // Requires authentication for this endpoint
-        // [HttpPost("profile")]
-        // public async Task<ActionResult<ExpertFreezerProfileDTO>> CreateExpertFreezer([FromForm] ExpertFreezerProfileDTO expertFreezerProfileDTO)
-        // {
-        //     var createdExpertFreezer = await _expertFreezerService.CreateExpertFreezer(expertFreezerProfileDTO);
+        [Authorize] // Requires authentication for this endpoint
+        [HttpPatch("profile/patch")]
+        public async Task<ActionResult<ExpertFreezerProfileDTO>> PatchExpertFreezer([FromForm] PatchProfileDTO patchProfileDTO)
+        {
+            var patchedExpertFreezer = await _expertFreezerService.PatchExpertFreezer(patchProfileDTO);
 
-        //     return CreatedAtAction(nameof(GetExpertFreezer),
-        //         new { id = createdExpertFreezer.Id },
-        //         createdExpertFreezer);
-        // }
+            return CreatedAtAction(nameof(GetExpertFreezer),
+                new { id = patchedExpertFreezer.Id },
+                patchedExpertFreezer);
+        }
+
+
+        [Authorize] // Allwows access without authentication
+        [HttpGet("user/{id}")]
+        public async Task<ActionResult<UserDTO>> GetUser(string username)
+        {
+            var userDTO = await _expertFreezerService.GetUser(username);
+
+            if (userDTO == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(userDTO);
+        }
 
     }
 }
