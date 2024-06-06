@@ -34,12 +34,12 @@ export class MainContentComponent {
 
   tiles: Tile[] = [
     {
-      component: NavBarComponent, text: 'One', cols: 4, rows: 1, color: 'lightblue', position: 'fixed',
+      component: NavBarComponent, text: 'One', cols: 6, rows: 1, color: 'lightblue', position: 'fixed',
       zindex: 1000
     },
     { component: SideBarComponent, text: 'Two', cols: 1, rows: 10, color: 'lightgreen', position: 'fixed' },
-    { component: FeedComponent, text: 'Three', cols: 3, rows: 24, color: 'lightpink' },
-    { component: FooterComponent, text: 'Four', cols: 4, rows: 2, color: '#DDBDF1' },
+    { component: FeedComponent, text: 'Three', cols: 5, rows: 24, color: 'lightpink' },
+    { component: FooterComponent, text: 'Four', cols: 6, rows: 2, color: '#DDBDF1' },
   ];
 
   public subscription = this.restSvc.getMessage.subscribe(data => {
