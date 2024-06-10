@@ -61,16 +61,18 @@ namespace ExpertFreezerAPI
                 };
             });
 
+            services.AddSwaggerGen();
             // Add other services as needed
             services.AddControllers();
-            services.AddCors(); 
+            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseCors(options =>
