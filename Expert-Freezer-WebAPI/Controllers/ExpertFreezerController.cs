@@ -33,7 +33,6 @@ namespace ExpertFreezerAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-                //Just a comment. again
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromForm] LoginDTO loginDTO)
