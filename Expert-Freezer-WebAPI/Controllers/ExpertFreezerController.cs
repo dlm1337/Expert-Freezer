@@ -16,8 +16,7 @@ namespace ExpertFreezerAPI.Controllers
         {
             _expertFreezerService = expertFreezerService;
             _tokenService = tokenService;
-        }
-        //this is a comment. again
+        } 
 
         [AllowAnonymous] // Allows access without authentication
         [HttpPost("register")]
