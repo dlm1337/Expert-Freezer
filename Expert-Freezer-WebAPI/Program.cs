@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace ExpertFreezerAPI
 {
@@ -15,6 +16,8 @@ namespace ExpertFreezerAPI
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+
+                    Console.WriteLine("we are in the money");
                 });
     }
 }
