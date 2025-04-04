@@ -38,7 +38,7 @@ namespace ExpertFreezerAPI
             services.AddDbContext<ExpertFreezerContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("WebApiDatabase")));
 
-            // Add JWT authentication
+            // Add JWT authentication with succesful login
             var key = Encoding.ASCII.GetBytes(Configuration["Jwt:Key"]);
             services.AddAuthentication(x =>
             {

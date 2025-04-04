@@ -15,9 +15,8 @@ namespace ExpertFreezerAPI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
-
-                    Console.WriteLine("we are in the money");
+                    webBuilder.UseStartup<Startup>(); 
+                    
                 });
     }
 }
