@@ -7,8 +7,8 @@ namespace ExpertFreezerAPI.Service
     public interface IExpertFreezerService
     {
         Task<ExpertFreezerProfileDTO> GetExpertFreezer(long id);
-        Task<ExpertFreezerProfileDTO> CreateExpertFreezer(long userId, ExpertFreezerProfileDTO expertFreezerProfileDTO);
-        Task<ExpertFreezerProfileDTO> PatchExpertFreezer(PatchProfileDTO patchProfileDTO);
+        Task<ExpertFreezerProfileDTO> CreateExpertFreezer(long userId, string username, ExpertFreezerProfile expertFreezerProfile);
+        Task<ExpertFreezerProfileDTO> PatchExpertFreezer(ExpertFreezerProfileDTO expertFreezerProfileDTO);
         Task<UserDTO> Register(RegistrationDTO registrationDTO);
         Task<UserDTO> GetUser(string username);
         Task<UserDTO> Login(LoginDTO loginDTO);
@@ -46,12 +46,12 @@ namespace ExpertFreezerAPI.Service
             await _repository.SaveChangesAsync();
 
             // Create ExpertFreezer profile
-            var expertFreezerProfileDTO = new ExpertFreezerProfileDTO
+            var expertFreezerProfile = new ExpertFreezerProfile
             {
                 Username = registrationDTO.Username
             };
 
-            await CreateExpertFreezer(user.Id, expertFreezerProfileDTO);
+            await CreateExpertFreezer(user.Id, user.Username, expertFreezerProfile);
 
             var userDTO = new UserDTO
             {
@@ -125,48 +125,47 @@ namespace ExpertFreezerAPI.Service
             }
         }
 
-        public async Task<ExpertFreezerProfileDTO> CreateExpertFreezer(long userId, ExpertFreezerProfileDTO expertFreezerProfileDTO)
+        public async Task<ExpertFreezerProfileDTO> CreateExpertFreezer(long userId, string username, ExpertFreezerProfile expertFreezerProfile)
         {
-            var expertFreezerProfile = new ExpertFreezerProfile
+            var profile = new ExpertFreezerProfile
             {
                 Id = userId,  // Use the user ID directly
-                Username = expertFreezerProfileDTO.Username,
-                CompanyName = expertFreezerProfileDTO.CompanyName,
-                CompanyDescription = expertFreezerProfileDTO.CompanyDescription,
-                Services = expertFreezerProfileDTO.Services,
-                Address = expertFreezerProfileDTO.Address,
-                Email = expertFreezerProfileDTO.Email,
-                Pricing = expertFreezerProfileDTO.Pricing,
-                ProfilePic = expertFreezerProfileDTO.ProfilePic,
-                ExtraPics = expertFreezerProfileDTO.ExtraPics,
-                ExtraPicsDesc = expertFreezerProfileDTO.ExtraPicsDesc
+                Username = username,
+                CompanyName = expertFreezerProfile.CompanyName,
+                CompanyDescription = expertFreezerProfile.CompanyDescription,
+                Services = expertFreezerProfile.Services,
+                Address = expertFreezerProfile.Address,
+                Email = expertFreezerProfile.Email,
+                Pricing = expertFreezerProfile.Pricing,
+                ProfilePic = expertFreezerProfile.ProfilePic,
+                ExtraPics = expertFreezerProfile.ExtraPics,
+                ExtraPicsDesc = expertFreezerProfile.ExtraPicsDesc
             };
 
-            var createdExpertFreezer = await _repository.CreateExpertFreezer(expertFreezerProfile);
+            var createdExpertFreezer = await _repository.CreateExpertFreezer(profile);
 
             return ProfileToDTO(createdExpertFreezer);
         }
 
 
-        public async Task<ExpertFreezerProfileDTO> PatchExpertFreezer(PatchProfileDTO patchProfileDTO)
+        public async Task<ExpertFreezerProfileDTO> PatchExpertFreezer(ExpertFreezerProfileDTO expertFreezerProfileDTO)
         {
 
-            var patchedExpertFreezer = await _repository.PatchExpertFreezer(patchProfileDTO);
+            var patchedExpertFreezer = await _repository.PatchExpertFreezer(expertFreezerProfileDTO);
 
             return ProfileToDTO(patchedExpertFreezer);
 
         }
-        //ExpertFreezerProfile and ExpertFreezerProfileDTO are the same right now. this should be fixed.
+
+
         private static ExpertFreezerProfileDTO ProfileToDTO(ExpertFreezerProfile expertFreezerProfile) =>
            new ExpertFreezerProfileDTO
            {
                Id = expertFreezerProfile.Id,
-               Username = expertFreezerProfile.Username,
                CompanyName = expertFreezerProfile.CompanyName,
                CompanyDescription = expertFreezerProfile.CompanyDescription,
                Services = expertFreezerProfile.Services,
                Address = expertFreezerProfile.Address,
-               Email = expertFreezerProfile.Email,
                Pricing = expertFreezerProfile.Pricing,
                ProfilePic = expertFreezerProfile.ProfilePic,
                ExtraPics = expertFreezerProfile.ExtraPics,

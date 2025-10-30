@@ -10,7 +10,7 @@ namespace ExpertFreezerAPI.Repo
     {
         Task<ExpertFreezerProfile> GetExpertFreezer(long id);
         Task<ExpertFreezerProfile> CreateExpertFreezer(ExpertFreezerProfile expertFreezerProfile);
-        Task<ExpertFreezerProfile> PatchExpertFreezer(PatchProfileDTO patchProfileDTO);
+        Task<ExpertFreezerProfile> PatchExpertFreezer(ExpertFreezerProfileDTO expertFreezerProfileDTO);
         Task<long> GetLastProfileID();
         Task<bool> UserExists(string username);
         Task AddUser(User user);
@@ -53,7 +53,7 @@ namespace ExpertFreezerAPI.Repo
 
             if (ExpertFreezer == null)
             {
-                throw new Exception($"ExpertFreezer with id {id} not found.");  //currently not finding the write profile
+                throw new Exception($"ExpertFreezer with id {id} not found."); 
             }
 
             return ExpertFreezer;
@@ -67,18 +67,18 @@ namespace ExpertFreezerAPI.Repo
             return expertFreezerProfile;
         }
 
-        public async Task<ExpertFreezerProfile> PatchExpertFreezer(PatchProfileDTO patchProfileDTO)
+        public async Task<ExpertFreezerProfile> PatchExpertFreezer(ExpertFreezerProfileDTO expertFreezerProfileDTO)
         {
             // Find the existing entity
-            var existingProfile = await _context.expertFreezerProfiles.FindAsync(patchProfileDTO.Id);
+            var existingProfile = await _context.expertFreezerProfiles.FindAsync(expertFreezerProfileDTO.Id);
 
             if (existingProfile == null)
             {
-                throw new KeyNotFoundException($"ExpertFreezerProfile with ID {patchProfileDTO.Id} not found.");
+                throw new KeyNotFoundException($"ExpertFreezerProfile with ID {expertFreezerProfileDTO.Id} not found.");
             }
 
             // Update only the changed fields
-            _context.Entry(existingProfile).CurrentValues.SetValues(patchProfileDTO);
+            _context.Entry(existingProfile).CurrentValues.SetValues(expertFreezerProfileDTO);
 
             // Save changes to the database
             await _context.SaveChangesAsync();

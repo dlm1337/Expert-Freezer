@@ -64,9 +64,9 @@ namespace ExpertFreezerAPI.Controllers
 
         [Authorize] // Requires authentication for this endpoint
         [HttpPatch("profile/patch")]
-        public async Task<ActionResult<ExpertFreezerProfileDTO>> PatchExpertFreezer([FromForm] PatchProfileDTO patchProfileDTO)
+        public async Task<ActionResult<ExpertFreezerProfileDTO>> PatchExpertFreezer([FromForm] ExpertFreezerProfileDTO expertFreezerProfileDTO)
         {
-            var patchedExpertFreezer = await _expertFreezerService.PatchExpertFreezer(patchProfileDTO);
+            var patchedExpertFreezer = await _expertFreezerService.PatchExpertFreezer(expertFreezerProfileDTO);
 
             return CreatedAtAction(nameof(GetExpertFreezer),
                 new { id = patchedExpertFreezer.Id },
