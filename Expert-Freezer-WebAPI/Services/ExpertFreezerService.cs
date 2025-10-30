@@ -156,7 +156,7 @@ namespace ExpertFreezerAPI.Service
             return ProfileToDTO(patchedExpertFreezer);
 
         }
-
+        //ExpertFreezerProfile and ExpertFreezerProfileDTO are the same right now. this should be fixed.
         private static ExpertFreezerProfileDTO ProfileToDTO(ExpertFreezerProfile expertFreezerProfile) =>
            new ExpertFreezerProfileDTO
            {

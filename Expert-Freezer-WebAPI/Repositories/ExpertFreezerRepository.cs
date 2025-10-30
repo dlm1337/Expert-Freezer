@@ -53,7 +53,7 @@ namespace ExpertFreezerAPI.Repo
 
             if (ExpertFreezer == null)
             {
-                throw new Exception($"ExpertFreezer with id {id} not found.");
+                throw new Exception($"ExpertFreezer with id {id} not found.");  //currently not finding the write profile
             }
 
             return ExpertFreezer;
