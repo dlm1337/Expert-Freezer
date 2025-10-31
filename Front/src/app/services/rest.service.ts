@@ -4,10 +4,13 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
+import { ExpertFreezerProfile } from './expert-freezer-profile.model';
 
 @Injectable({
   providedIn: 'root',
 })
+
+
 
 export class RestService {
   private url = '';
@@ -73,7 +76,7 @@ export class RestService {
     );
   }
 
-  getProfileById(id: string | null): Observable<FormData> {
+  getProfileById(id: string | null): Observable<ExpertFreezerProfile> {
 
     const url = `${this.url}api/profile/${id}`;
     return this.http.get(url).pipe(

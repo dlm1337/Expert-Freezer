@@ -42,14 +42,30 @@ export class EditProfileDialogComponent implements OnInit {
       pricing: ['']
 
     });
-    
+
     if (this.authService.isLoggedIn()) {
-      this.restSvc.getProfileById(this.authService.getLoggedInId()).subscribe((resp) => {
-        if (resp) {
-          console.log('You are getting a profile response.', resp);
-        } else {
-          const err = new Error('Probably something wrong with the profile id.');
-          throwError(() => err);
+      this.restSvc.getProfileById(this.authService.getLoggedInId()).subscribe({
+        next: (resp) => {
+          if (resp) {
+            console.log('You are getting a profile response:', resp);
+
+            // ✅ Patch the form directly with the response object
+            this.form.patchValue({
+              companyName: resp.companyName,
+              profilePic: resp.profilePic,
+              extraPics: resp.extraPics,
+              extraPicsDesc: resp.extraPicsDesc,
+              companyDescription: resp.companyDescription,
+              services: resp.services,
+              address: resp.address,
+              pricing: resp.pricing
+            });
+          } else {
+            throw new Error('Probably something wrong with the profile id.');
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching profile:', err);
         }
       });
     }
