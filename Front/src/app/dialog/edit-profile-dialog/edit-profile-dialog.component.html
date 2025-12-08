@@ -1,20 +1,28 @@
-<h2 class="title">This is a Dialog title</h2>
+<h2 class="title">Expert Profile</h2>
 
 <mat-dialog-content class="content">
     <form [formGroup]="form">
         <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Company Name</mat-label>
-            <input matInput formControlName="companyName">
+            <input matInput formControlName="companyName" />
         </mat-form-field>
 
+        <!-- Profile Picture Upload + Preview -->
         <div class="example-full-width">
             <label for="profilePic">Profile Picture</label>
             <input type="file" id="profilePic" (change)="onFileChange($event, 'profilePic')" />
+
+            <!-- Show current profile picture -->
+            <div *ngIf="form.value.profilePic" class="preview-container">
+                <p>Current Profile Picture:</p>
+                <img [src]="form.value.profilePic" alt="Profile Picture" class="preview-img" />
+            </div>
         </div>
 
+        <!-- Extra Pictures Upload + Preview -->
         <div class="example-full-width">
             <label for="extraPics">Extra Pictures</label>
-            <input type="file" id="extraPics" />
+            <input type="file" id="extraPics" multiple (change)="onFileChange($event, 'extraPics')" />
         </div>
 
         <mat-form-field class="example-full-width" appearance="outline">
@@ -24,11 +32,11 @@
 
         <button type="button" (click)="addExtraPic()">Add Extra Picture</button>
 
-
         <ul>
-            <li *ngFor="let pic of extraPics">
-                <p>{{ pic.file.name }} - {{ pic.desc }}
-                    <button type="button" (click)="removeExtraPic(pic.file.name)">X</button>
+            <li *ngFor="let pic of form.value.extraPics; let i = index">
+                <p>
+                    <img [src]="pic" alt="Extra Picture" class="preview-img" />
+                    <button type="button" (click)="removeExtraPic(i)">X</button>
                 </p>
             </li>
         </ul>
@@ -50,7 +58,7 @@
 
         <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Pricing</mat-label>
-            <input matInput formControlName="pricing">
+            <input matInput formControlName="pricing" />
         </mat-form-field>
     </form>
 </mat-dialog-content>

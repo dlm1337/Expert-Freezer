@@ -52,8 +52,8 @@ export class EditProfileDialogComponent implements OnInit {
             // ✅ Patch the form directly with the response object
             this.form.patchValue({
               companyName: resp.companyName,
-              profilePic: resp.profilePic,
-              extraPics: resp.extraPics,
+              profilePic: resp.profilePic !== "null" ? resp.profilePic : null,
+              extraPics: resp.extraPics?.filter(p => p !== "null") || [],
               extraPicsDesc: resp.extraPicsDesc,
               companyDescription: resp.companyDescription,
               services: resp.services,
@@ -92,7 +92,7 @@ export class EditProfileDialogComponent implements OnInit {
       this.resetExtraPicForm();
     }
     else {
-      console.log('to many photos!')
+      console.log('too many photos! or no desc!')
     }
   }
 
@@ -106,9 +106,10 @@ export class EditProfileDialogComponent implements OnInit {
     }
   }
 
-  removeExtraPic(name: string) {
-    this.extraPics = this.extraPics.filter(x => x.file.name !== name)
-    console.log(this.extraPics);
+  removeExtraPic(index: number): void {
+    const pics = this.form.value.extraPics || [];
+    pics.splice(index, 1);
+    this.form.patchValue({ extraPics: pics });
   }
 
   convertFileToBase64(file: File): Promise<string> {
